@@ -1,0 +1,40 @@
+__author__ = 'Dennis Strik'
+
+import requests
+import xmltodict
+url = 'http://webservices.ns.nl/ns-api-avt?station=ut'
+user = 'dennis-strik@hotmail.com'
+passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
+response = requests.get(url, auth=(user, passw))
+
+
+xmldi = xmltodict.parse(response.text)
+
+hoeveelstetrein = 0
+aantaltreinen = 10
+print('Tijd      Naar                      Spoor         Via                                                Vervoerder      Treinsoort      Ritnummer')
+for hoeveelstetrein in range(0, aantaltreinen):
+        #print(xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming'] + '     ' + 'Spoor(nog uitzoeken hoe)' + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] + '     '+ xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder'] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort'])
+    tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
+    Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
+    Spoor = 'Nog uitzoeken'
+    Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
+    Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
+    Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
+
+    try:
+        Via = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+    except KeyError:
+        Via = ''
+
+    try:
+        Routetekst = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+    except KeyError:
+        Routetekst = ''
+    #print(tijd, Naar, Spoor, Via, Vervoerder, Ritnummer)
+
+
+        #xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] = ''
+        #print(xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming'] + '     ' + 'Spoor(nog uitzoeken hoe)' + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] + '     '+ xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder'] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort'])
+    print('{0:9s}'.format(tijd), '{0:25s}'.format(Naar), '{0:8s}'.format(Spoor), '{0:50}'.format(Routetekst), '{0:15s}'.format(Vervoerder), '{0:15s}'.format(Treinsoort), '{0:8s}'.format(Ritnummer))
+    hoeveelstetrein +=1
