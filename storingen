@@ -1,0 +1,33 @@
+__author__ = 'victor'
+
+import requests
+import xmltodict
+url = 'http://webservices.ns.nl/ns-api-storingen?station=UT'
+user = 'victor_shao@hotmail.com'
+passw = 'dMHAg67WACsUdrQmqctr3giaTpTnsJmhPP2EcQWlVnMw3zmHXvSE-A'
+response = requests.get(url, auth=(user, passw))
+
+xmldi = xmltodict.parse(response.text)
+
+hoeveelstetrein = 0
+aantaltreinen = 10
+
+print("Storigen",'\n','ongeplande storingen')
+print('{0:15s}'.format('id'),'{0:40s}'.format('traject'),'{0:20s}'.format('reden'),'{0:100s}'.format('bericht'),'{0:25s}'.format('datum'))
+for hoeveelstetrein in range(0, aantaltreinen):
+    id = xmldi['Storingen']['Ongepland']['Storing']['id']
+    traject = xmldi['Storingen']['Ongepland']['Storing']['Traject']
+    reden = xmldi['Storingen']['Ongepland']['Storing']['Reden']
+    bericht = xmldi['Storingen']['Ongepland']['Storing']['Bericht']
+    datum = xmldi['Storingen']['Ongepland']["Storing"]['Datum']
+
+print("Geplande storingen ")
+print('{0:25s)'.format('id'),'{0:40s}'.format('traject'),'{0:35s}'.format('periode'),'{0:200s}'.format('advies'),'{0:250s}'.format('bericht'),'{0:50s}'.format('oorzaak'),'{0:30s}'.format('vertraging'))
+for hoeveelstetrein in range(0,aantaltreinen):
+    id = xmldi['Storingen']['Gepland']['Storing']['id']
+    traject = xmldi['Storingen']['Gepland']['Storing']['Traject']
+    periode = xmldi['Storingen']['Gepland']['Storing']['Periode']
+    advies = xmldi['Storingen']['Gepland']['Storing']['Advies']
+    bericht = xmldi['Storingen']['Gepland']['Storing']['Bericht']
+    oorzaak = xmldi['Storingen']['Gepland']['Storing']['Oorzaak']
+    vertraging = xmldi['Storingen']['Gepland']['Storing']['Vertraging']
