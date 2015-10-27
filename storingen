@@ -12,7 +12,7 @@ xmldi = xmltodict.parse(response.text)
 storing = 0
 allestoringen = 4
 
-print("Storigen",'\n','ongeplande storingen')
+print("Storingen",'\n','ongeplande storingen')
 print('{0:15s}'.format('id'),'{0:40s}'.format('traject'),'{0:20s}'.format('reden'),'{0:100s}'.format('bericht'),'{0:25s}'.format('datum'))
 for storing in range(0, allestoringen):
     id = xmldi['Storingen']['Ongepland']['Storing']['id']
