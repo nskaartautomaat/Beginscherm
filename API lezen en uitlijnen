@@ -12,15 +12,20 @@ xmldi = xmltodict.parse(response.text)
 
 hoeveelstetrein = 0
 aantaltreinen = 10
-print('{0:9s}'.format('tijd'), '{0:25s}'.format('Naar'), '{0:8s}'.format('Spoor'), '{0:50}'.format('Routetekst'), '{0:15s}'.format('Vervoerder'), '{0:15s}'.format('Treinsoort'), '{0:8s}'.format('Ritnummer'))
+
+print('{0:10s}'.format('tijd'), '{0:25s}'.format('Naar'), '{0:8s}'.format('Spoor'), '{0:45}'.format('Routetekst'), '{0:18s}'.format('Vervoerder'), '{0:10s}'.format('Ritnummer'), '{0:15s}'.format('Treinsoort'))
 for hoeveelstetrein in range(0, aantaltreinen):
-        #print(xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming'] + '     ' + 'Spoor(nog uitzoeken hoe)' + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] + '     '+ xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder'] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort'])
     tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
     Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
-    Spoor = 'Nog uitzoeken'
     Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
     Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
     Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
+    Vertrekspoor = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekSpoor']['#text']
+
+    try:
+        Vertraging = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekVertragingTekst'][0:2]
+    except KeyError:
+        Vertraging = ''
 
     try:
         Via = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
@@ -31,10 +36,9 @@ for hoeveelstetrein in range(0, aantaltreinen):
         Routetekst = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
     except KeyError:
         Routetekst = ''
-    #print(tijd, Naar, Spoor, Via, Vervoerder, Ritnummer)
 
 
-        #xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] = ''
-        #print(xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming'] + '     ' + 'Spoor(nog uitzoeken hoe)' + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] + '     '+ xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder'] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort'])
-    print('{0:9s}'.format(tijd), '{0:25s}'.format(Naar), '{0:8s}'.format(Spoor), '{0:50}'.format(Routetekst), '{0:15s}'.format(Vervoerder), '{0:15s}'.format(Treinsoort), '{0:8s}'.format(Ritnummer))
+    print('{0:5s}'.format(tijd),'{0:4s}'.format(Vertraging), '{0:25s}'.format(Naar), '{0:8s}'.format(Vertrekspoor), '{0:45}'.format(Routetekst), '{0:18s}'.format(Vervoerder), '{0:10s}'.format(Ritnummer), '{0:15s}'.format(Treinsoort))
     hoeveelstetrein +=1
+
+
