@@ -9,12 +9,12 @@ response = requests.get(url, auth=(user, passw))
 
 xmldi = xmltodict.parse(response.text)
 
-hoeveelstetrein = 0
-aantaltreinen = 10
+storing = 0
+allestoringen = 4
 
 print("Storigen",'\n','ongeplande storingen')
 print('{0:15s}'.format('id'),'{0:40s}'.format('traject'),'{0:20s}'.format('reden'),'{0:100s}'.format('bericht'),'{0:25s}'.format('datum'))
-for hoeveelstetrein in range(0, aantaltreinen):
+for storing in range(0, allestoringen):
     id = xmldi['Storingen']['Ongepland']['Storing']['id']
     traject = xmldi['Storingen']['Ongepland']['Storing']['Traject']
     reden = xmldi['Storingen']['Ongepland']['Storing']['Reden']
@@ -23,7 +23,7 @@ for hoeveelstetrein in range(0, aantaltreinen):
 
 print("Geplande storingen ")
 print('{0:25s)'.format('id'),'{0:40s}'.format('traject'),'{0:35s}'.format('periode'),'{0:200s}'.format('advies'),'{0:250s}'.format('bericht'),'{0:50s}'.format('oorzaak'),'{0:30s}'.format('vertraging'))
-for hoeveelstetrein in range(0,aantaltreinen):
+for storing in range(0, allestoringen):
     id = xmldi['Storingen']['Gepland']['Storing']['id']
     traject = xmldi['Storingen']['Gepland']['Storing']['Traject']
     periode = xmldi['Storingen']['Gepland']['Storing']['Periode']
