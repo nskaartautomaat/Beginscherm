@@ -12,7 +12,7 @@ xmldi = xmltodict.parse(response.text)
 
 hoeveelstetrein = 0
 aantaltreinen = 10
-print('Tijd      Naar                      Spoor         Via                                                Vervoerder      Treinsoort      Ritnummer')
+print('{0:9s}'.format('tijd'), '{0:25s}'.format('Naar'), '{0:8s}'.format('Spoor'), '{0:50}'.format('Routetekst'), '{0:15s}'.format('Vervoerder'), '{0:15s}'.format('Treinsoort'), '{0:8s}'.format('Ritnummer'))
 for hoeveelstetrein in range(0, aantaltreinen):
         #print(xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming'] + '     ' + 'Spoor(nog uitzoeken hoe)' + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst'] + '     '+ xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder'] + '     ' + xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort'])
     tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
