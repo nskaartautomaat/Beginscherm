@@ -7,7 +7,6 @@ class Beginscherm:
 
     def __init__(self,master):
         window.configure(bg="#fdcf19")
-        #window.geometry("1024x680")
         window.geometry("1366x768")
 
         global MainFrame
@@ -48,8 +47,8 @@ class Beginscherm:
 class Treinen:
     def __init__(self,master):
         global frame2
-        frame2= Frame(master)
-        frame2.pack()
+        frame2= Frame(master,bg="#fdcf19")
+        frame2.pack(side=TOP,fill=X)
 
         self.labeltijd = Label(frame2,anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
         self.LabelVertraging = Label(frame2,anchor='w',text='',fg="#003399",bg="#fdcf19", width=4).grid(row=0,column=1)
@@ -131,9 +130,9 @@ class Treinen:
             self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg="#0000ff", width=15).grid(row=hoeveelstetrein,column=6)
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg="#0000ff", width=15).grid(row=hoeveelstetrein,column=7)
 
-            self.labelLeeg = Label(frame2,text = '',bg="#fdcf19").grid(row=aantaltreinen+1,column=2)
-            self.buttonMeerResultaten = Button(frame2,text='Meer \n treinen', fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-355,x=450)
-            self.buttonTerug = Button(frame2,text='Terug', fg="white",bg="#01236A",width=19,height=3,command=self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=-260,x=450)
+
+            self.buttonMeerResultaten = Button(frame2,text='Meer \n treinen', fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(y=20,x=1135)
+            self.buttonTerug = Button(frame2,text='Terug', fg="white",bg="#01236A",width=19,height=3,command=self.terug,font=("arial",15)).place(y=125,x=1135)
 
     def meerResult(self):
         for hoeveelstetrein in range(aantaltreinen+1, aantaltreinen+5,2):
@@ -170,7 +169,7 @@ class Treinen:
             self.labelvervoerderAPI = Label(frame2,anchor='w',text=self.Vervoerder, fg="white",bg="#003399", width=18).grid(row=hoeveelstetrein,column=5)
             self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg="#003399", width=15).grid(row=hoeveelstetrein,column=6)
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg="#003399", width=15).grid(row=hoeveelstetrein,column=7)
-            self.labelLeeg = Label(text = '',bg="#fdcf19").grid(row=hoeveelstetrein,column=2)
+
 
         for hoeveelstetrein in range(aantaltreinen, aantaltreinen+5,2):
             self.tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
