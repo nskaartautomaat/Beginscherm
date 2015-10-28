@@ -96,6 +96,7 @@ class Treinen:
 
             rij= hoeveelstetrein+1
 
+            #Labels voor de treinen met gegevns: tijd, vertraging, eindpunt, spoor, via welke stations, vervoerder en het ritnummer
             self.labeltijdAPI = Label(frame2,anchor='w',text=self.tijd,fg="white",bg=kleur, width=5).grid(row=rij,column=0)
             self.labelVertraging = Label(frame2,anchor='w',text=self.Vertraging,fg="red",bg=kleur, width=4).grid(row=rij,column=1)
             self.labelnaarAPI = Label(frame2,anchor='w',text=self.Naar, fg="white",bg=kleur, width=25).grid(row=rij,column=2)
