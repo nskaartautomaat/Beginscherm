@@ -1,0 +1,127 @@
+__author__ = 'Dennis Strik'
+
+import requests
+import xmltodict
+from tkinter import *
+root = Tk()
+
+def informatie_vertrektijden_huidige_station(station):
+    url = 'http://webservices.ns.nl/ns-api-avt?station=' + station
+    user = 'dennis-strik@hotmail.com'
+    passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
+    response = requests.get(url, auth=(user, passw))
+
+    xmldi = xmltodict.parse(response.text)
+    hoeveelstetrein = 1
+    aantaltreinen = 16
+    werkende_link = True
+
+    root["bg"] = "#fdcf19"
+    root.geometry("1366x768")
+
+    try:
+        tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
+    except KeyError:
+        print('Onbekend station.')
+        probeer_opnieuw()
+        werkende_link = False
+
+    if werkende_link:
+        labeltijd = Label(anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
+        LabelVertraging = Label(anchor='w',text='',fg="#003399",bg="#fdcf19", width=4).grid(row=0,column=1)
+        labelnaar = Label(anchor='w',text='Naar', fg="#003399",bg="#fdcf19", width=25).grid(row=0,column=2)
+        labelvertrekspoor = Label(anchor='w',text='Spoor', fg="#003399",bg="#fdcf19", width=12).grid(row=0,column=3)
+        labelroutetekst = Label(anchor='w',text='Routetekst', fg="#003399",bg="#fdcf19", width=60).grid(row=0,column=4)
+        labelvervoerder = Label(anchor='w',text='Vervoerder', fg="#003399",bg="#fdcf19", width=18).grid(row=0,column=5)
+        labelritnummer = Label(anchor='w',text='Ritnummer', fg="#003399",bg="#fdcf19", width=15).grid(row=0,column=6)
+        labeltreinsoort = Label(anchor='w',text='Treinsoort', fg="#003399",bg="#fdcf19", width=20).grid(row=0,column=7)
+
+        for hoeveelstetrein in range(0, aantaltreinen):
+            if hoeveelstetrein % 2 == 0:
+                kleur = "#003399"
+            else:
+                kleur = "#0000ff"
+
+            try:
+                Vertrekspoor = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekSpoor']['#text']
+            except KeyError:
+                Vertrekspoor = ''
+            except IndexError:
+                Vertrekspoor = ''
+
+            try:
+                Vertraging = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekVertragingTekst'][0:2]
+            except KeyError:
+                Vertraging = ''
+            except IndexError:
+                Vertraging = ''
+
+            try:
+                Via = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                Via = ''
+            except IndexError:
+                Via = ''
+
+            try:
+                Routetekst = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                Routetekst = ''
+            except IndexError:
+                Routetekst = ''
+
+            try:
+                Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
+            except KeyError:
+                vervoerder = ''
+            except IndexError:
+                Vervoerder = ''
+
+            try:
+                tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
+            except IndexError:
+                tijd = ''
+
+            try:
+                Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
+            except IndexError:
+                Naar = ''
+
+            try:
+                Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
+            except IndexError:
+                Ritnummer = ''
+
+            try:
+                Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
+            except IndexError:
+                Treinsoort = ''
+
+            rij= hoeveelstetrein+1
+
+            if Vertrekspoor != '':
+                labeltijdAPI = Label(anchor='w',text=tijd,fg="white",bg=kleur, width=5).grid(row=rij,column=0)
+                labelVertraging = Label(anchor='w',text=Vertraging,fg="red",bg=kleur, width=4).grid(row=rij,column=1)
+                labelnaarAPI = Label(anchor='w',text=Naar, fg="white",bg=kleur, width=25).grid(row=rij,column=2)
+                labelvertrekspoorAPI = Label(anchor='w',text=Vertrekspoor, fg="white",bg=kleur, width=12).grid(row=rij,column=3)
+                labelroutetekstAPI = Label(anchor='w',text=Routetekst, fg="white",bg=kleur, width=60).grid(row=rij,column=4)
+                labelvervoerderAPI = Label(anchor='w',text=Vervoerder, fg="white",bg=kleur, width=18).grid(row=rij,column=5)
+                labelritnummerAPI = Label(anchor='w',text=Ritnummer, fg="white",bg=kleur, width=15).grid(row=rij,column=6)
+                labeltreinsoortAPI = Label(anchor='w',text=Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
+
+
+
+        labelLeeg = Label(text = '',bg="#fdcf19").grid(row=aantaltreinen+1,column=2)
+        buttonMeerResultaten = Button(anchor='w',text='Meer treinen weergeven', fg="#003399",bg="#fdcf19", width=20).grid(row=aantaltreinen+2,column=2, rowspan = 2)
+        buttonTerug = Button(anchor='w',text='Terug', fg="#003399",bg="#fdcf19", width=20).grid(row=aantaltreinen+2,column=4,sticky=W)
+
+def probeer_opnieuw():
+    zoekopdracht = input('Van welk station wilt u de vertrektijden weten?')
+    zoekopdracht = zoekopdracht.lstrip()
+    zoekopdracht = zoekopdracht.rstrip()
+    zoekopdracht.replace(' ','+')
+
+    informatie_vertrektijden_huidige_station(zoekopdracht)
+probeer_opnieuw()
+
+root.mainloop()
