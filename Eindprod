@@ -12,7 +12,7 @@ class Beginscherm:
         window.geometry("1366x768")
 
         global MainFrame
-        MainFrame = Frame(master,bg="#fdcf19",height=630)
+        MainFrame = Frame(master,bg="#fdcf19",height=691)
         MainFrame.pack(side=TOP,fill=X)
 
         global BotFrame
@@ -113,11 +113,11 @@ class Treinen:
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
 
 
-            #self.labVensterRechts = Label(bg="#fdcf19")
-            self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-333,x=515)
-            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-263,x=450)
-            self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-168,x=450)
-            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=-73,x=450)
+            self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
+            self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515)
+            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
+            self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
+            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=-100,x=455)
 
     def meerResult(self):
         global extra_treinen
@@ -168,7 +168,7 @@ class Treinen:
         extra_treinen +=1
 
         if extra_treinen == 2:
-            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=DISABLED, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-263,x=450)
+            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=DISABLED, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
 
 
 
