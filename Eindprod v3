@@ -134,8 +134,8 @@ class Treinen:
             self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
 
             self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
-            self.entyAnderStation = Entry().place(relx=0.5, rely=0.5,y=-100,x=540)
-            self.butAnderStation = Button(text="bekijk ander station",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
+            self.entyAnderStation = Entry(state=DISABLED).place(relx=0.5, rely=0.5,y=-100,x=540)
+            self.butAnderStation = Button(state=DISABLED,text="bekijk ander station",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
 
             self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)
 
@@ -257,7 +257,7 @@ class Storingen:
         self.labelongepland = Label(framestoring,anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
         self.labelgepland = Label(framestoring,anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
         #self.terugbutton = Button(framestoring,text="Terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=1200, y=550)
-        self.hoofdmenuBbutton = Button(framestoring,text="Frame stopt hier↓",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=0, y=410)
+        self.hoofdmenuBbutton = Button(framestoring,text="Frame stopt hier↓",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=0, y=390)
 
         for storing in range(0, allestoringen):
             self.id1 =''
@@ -423,19 +423,21 @@ class Storingen:
 
 try:
     window= Tk()
-
-    url = 'http://webservices.ns.nl/ns-api-avt?station=ut'
+    standaardStation = 'Utrecht+Centraal'
+    url = 'http://webservices.ns.nl/ns-api-avt?station='+standaardStation
     user = 'dennis-strik@hotmail.com'
     passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
     #response = requests.get(url, auth=(user, passw))
     #xmldi = xmltodict.parse(response.text)
-    urlStoring = 'http://webservices.ns.nl/ns-api-storingen?station=arnhem'
+    urlStoring = 'http://webservices.ns.nl/ns-api-storingen?station=Utrecht+Centraal'
 
     hoeveelstetrein = 0
     aantaltreinen = 16
     extra_treinen = 0
     storing = 0
     allestoringen = 1
+    werkende_link = True
+
 
     photo1 = ImageTk.PhotoImage(Image.open ("ovkaart.jpg"))
     photo2 = ImageTk.PhotoImage(Image.open ("taalenopties.jpg"))
