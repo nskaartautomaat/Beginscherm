@@ -1,0 +1,85 @@
+import requests
+import xmltodict
+from tkinter import *
+
+url = 'http://webservices.ns.nl/ns-api-storingen?station=UT'
+user = 'victor_shao@hotmail.com'
+passw = 'dMHAg67WACsUdrQmqctr3giaTpTnsJmhPP2EcQWlVnMw3zmHXvSE-A'
+response = requests.get(url, auth=(user, passw))
+
+xmldi = xmltodict.parse(response.text)
+
+storing = 0
+allestoringen = 2
+
+root = Tk()
+root["bg"] = "#fdcf19"
+root.geometry("1366x768")
+
+
+labelstoringen = Label(anchor='w',text='Storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=1,column=0)
+
+terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-355,x=450)
+#terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).grid(row=1,column=0)
+
+for storing in range(0, allestoringen):
+    id1 =''
+    try:
+        id1 = xmldi['Storingen']['Ongepland']['Storing']['id'] or xmldi['Storingen']['Ongepland']['Storing'][storing]['id']
+    except IndexError or KeyError or TypeError:
+        print()
+    if [storing] in id1:
+        traject1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Traject']
+        reden1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Reden']
+        bericht1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Bericht']
+        datum1 = xmldi['Storingen']['Ongepland']["Storing"][storing]['Datum']
+    elif id1 !="":
+        traject1 = xmldi['Storingen']['Ongepland']['Storing']['Traject']
+        reden1 = xmldi['Storingen']['Ongepland']['Storing']['Reden']
+        bericht1 = xmldi['Storingen']['Ongepland']['Storing']['Bericht']
+        datum1 = xmldi['Storingen']['Ongepland']["Storing"]['Datum']
+    else:
+        print('label met: geen ongeplande storingen')
+
+
+
+labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200)#.grid(row=3,column=0)
+labelidongepland = Label(anchor='w',text='id:  '+id1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=4,column=0)
+labeltrajectongepland = Label(anchor='w',text='traject:    '+traject1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=5,column=0)
+labelredenongepland = Label(anchor='w',text='reden:   '+reden1 ,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=6,column=0)
+labelberichtongepland = Label(anchor='w',text='bericht:   '+bericht1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=7,column=0)
+labeldatumongepland = Label(anchor='w',text='datum:     '+datum1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=8,column=0)
+
+
+
+for storing in range(0, allestoringen):
+    id2=''
+    try:
+        id2 = xmldi['Storingen']['Gepland']['Storing']['id'] or xmldi['Storingen']['Gepland']['Storing'][storing]['id']
+    except IndexError or KeyError or TypeError:
+        print()
+    if [storing] in id2:
+        traject2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Traject']
+        periode2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Periode']
+        advies2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Advies']
+        oorzaak2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
+        vertraging2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+    elif id2 !="":
+        traject2 = xmldi['Storingen']['Gepland']['Storing']['Traject']
+        periode2 = xmldi['Storingen']['Gepland']['Storing']['Periode']
+        advies2 = xmldi['Storingen']['Gepland']['Storing']['Advies']
+        oorzaak2 = xmldi['Storingen']['Gepland']['Storing']['Oorzaak']
+        vertraging2 = xmldi['Storingen']['Gepland']['Storing']['Vertraging']
+    else:
+        print('label: geen geplande storingen')
+
+
+labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200)#.grid(row=9,column=0)
+labelidgepland = Label(anchor='w',text='id:   '+id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=10,column=0)
+labeltrajectgepland = Label(anchor='w',text='traject:   '+traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=11,column=0)
+labelperiodegepland = Label(anchor='w',text='periode:    '+periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=12,column=0)
+labeladviesgepland = Label(anchor='w',text='advies:    '+advies2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=13,column=0)
+labeloorzaakgepland = Label(anchor='w',text='oorzaak:   '+oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=14,column=0)
+labelvertraginggepland = Label(anchor='w',text='vertraging:    '+vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200)#.grid(row=15,column=0)
+
+root.mainloop()
