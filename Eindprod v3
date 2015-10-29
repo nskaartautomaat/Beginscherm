@@ -42,8 +42,8 @@ class Beginscherm:
         self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15))
         self.ButReisinfo.place(relx=0.5, rely=0.5,y=109,x=340, anchor=CENTER)
 
-        self.ButReisinfo= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
-        self.ButReisinfo.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
+        #self.ButStoringen= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
+        #self.ButStoringen.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
 
 
     def bReisInformatie(self):
