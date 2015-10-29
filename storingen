@@ -1,5 +1,4 @@
 __author__ = 'victor'
-
 import requests
 import xmltodict
 from tkinter import *
@@ -7,16 +6,15 @@ from tkinter import *
 
 class storingen:
 
-
     def __init__(self,master):
         self.labelstoringen = Label(anchor='w',text='Storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=1,column=0)
         self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
-
+        self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
+        self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-355,x=450)
 
         for storing in range(0, allestoringen):
-            test = 0
             id1 =''
-
+            test = 0
 
             try:
                 id1 = xmldi['Storingen']['Ongepland']['Storing']['id']
@@ -45,19 +43,9 @@ class storingen:
                 reden1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Reden']
                 bericht1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Bericht']
                 datum1 = xmldi['Storingen']['Ongepland']["Storing"][storing]['Datum']
-            elif test ==1:
-                traject1 = xmldi['Storingen']['Ongepland']['Storing']['Traject']
-                reden1 = xmldi['Storingen']['Ongepland']['Storing']['Reden']
-                bericht1 = xmldi['Storingen']['Ongepland']['Storing']['Bericht']
-                datum1 = xmldi['Storingen']['Ongepland']["Storing"]['Datum']
-            else:
-                print('label met: geen ongeplande storingen')
-                test = 3
 
-            rij = storing+4
+                rij = storing+4
 
-
-            if test != 3:
                 self.labelidongepland = Label(anchor='w',text='id:  '+id1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
                 rij +=1
                 self.labeltrajectongepland = Label(anchor='w',text='traject:    '+traject1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
@@ -68,10 +56,31 @@ class storingen:
                 rij +=1
                 self.labeldatumongepland = Label(anchor='w',text='datum:     '+datum1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
 
+            elif test == 1:
+                traject1 = xmldi['Storingen']['Ongepland']['Storing']['Traject']
+                reden1 = xmldi['Storingen']['Ongepland']['Storing']['Reden']
+                bericht1 = xmldi['Storingen']['Ongepland']['Storing']['Bericht']
+                datum1 = xmldi['Storingen']['Ongepland']["Storing"]['Datum']
+
+                rij = storing+4
+
+                self.labelidongepland = Label(anchor='w',text='id:  '+id1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
+                rij +=1
+                self.labeltrajectongepland = Label(anchor='w',text='traject:    '+traject1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
+                rij +=1
+                self.labelredenongepland = Label(anchor='w',text='reden:   '+reden1 ,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
+                rij +=1
+                self.labelberichtongepland = Label(anchor='w',text='bericht:   '+bericht1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
+                rij +=1
+                self.labeldatumongepland = Label(anchor='w',text='datum:     '+datum1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
+
+            else:
+                self.labelgeenonstoring = Label(anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg='#003399',bg="#fdcf19",width=200).grid(row=30,column=0)
+                test = 0
 
 
         for storing in range(0, allestoringen):
-            id2 =''
+            id2w =''
             test2 = 0
 
 
@@ -107,39 +116,50 @@ class storingen:
                 print()
 
             if test2 == 2:
-                traject2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Traject']
-                periode2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Periode']
-                advies2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Advies']
-                oorzaak2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
-                vertraging2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+                self.traject2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Traject']
+                self.periode2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Periode']
+                self.advies2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Advies']
+                self.oorzaak2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
+                self.vertraging2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+
+                rij2 = rij+30
+
+                self.labelidgepland = Label(anchor='w',text='id:   '+id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeltrajectgepland = Label(anchor='w',text='traject:   '+traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labelperiodegepland = Label(anchor='w',text='periode:    '+periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeladviesgepland = Label(anchor='w',text='advies:    '+advies2[0:],font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:   '+oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+
             elif test2 == 1:
                 traject2 = xmldi['Storingen']['Gepland']['Storing']['Traject']
                 periode2 = xmldi['Storingen']['Gepland']['Storing']['Periode']
                 advies2 = xmldi['Storingen']['Gepland']['Storing']['Advies']
                 oorzaak2 = xmldi['Storingen']['Gepland']['Storing']['Oorzaak']
                 vertraging2 = xmldi['Storingen']['Gepland']['Storing']['Vertraging']
+
+                rij2 = rij+30
+
+                self.labelidgepland = Label(anchor='w',text='id:   '+id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeltrajectgepland = Label(anchor='w',text='traject:   '+traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labelperiodegepland = Label(anchor='w',text='periode:    '+periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeladviesgepland = Label(anchor='w',text='advies:    '+advies2[0:],font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:   '+oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+                rij2 +=1
+                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij2,column=0)
+
             else:
-                print('label: geen geplande storingen')
-                test = 3
-
-            rij +=1
-            self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=rij,column=0)
-
-            if test != 3:
-                rij +=1
-                self.labelidgepland = Label(anchor='w',text='id:   '+id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-                rij +=1
-                self.labeltrajectgepland = Label(anchor='w',text='traject:   '+traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-                rij +=1
-                self.labelperiodegepland = Label(anchor='w',text='periode:    '+periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-                rij +=1
-                self.advies2 = self.advies2.replace(' ', 'hoi', 5)
-                self.labeladviesgepland = Label(anchor='w',text='advies:    '+advies2[0:],font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-                rij +=1
-                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:   '+oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-                rij +=1
-                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=rij,column=0)
-
+                self.labelgeenstoring = Label(anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg='#003399',bg="#fdcf19",width=200).grid(row=61,column=0)
+                test = 0
 
 url = 'http://webservices.ns.nl/ns-api-storingen?station=arnhem'
 user = 'victor_shao@hotmail.com'
@@ -154,5 +174,8 @@ allestoringen = 1
 window = Tk()
 
 storingen(window)
+
+window.mainloop()
+
 
 window.mainloop()
