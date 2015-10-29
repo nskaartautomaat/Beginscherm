@@ -1,3 +1,5 @@
+_author__ = 'victor'
+
 import requests
 import xmltodict
 from tkinter import *
