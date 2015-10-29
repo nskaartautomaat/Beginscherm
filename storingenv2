@@ -1,3 +1,4 @@
+__author__ = 'Dennis Strik'
 __author__ = 'victor'
 import requests
 import xmltodict
@@ -155,7 +156,20 @@ class Storingen:
                 self.rij2 +=1
                 self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
                 self.rij2 +=1
-                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.advies2[0:],font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+
+                adviesDeel1 = self.advies2[0:100]
+                adviesDeel2 = self.advies2[100:200]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                adviesDeel5 = self.advies2[400:500]
+                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+                
+                
+                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
                 self.rij2 +=1
                 self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:   '+self.oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
                 self.rij2 +=1
