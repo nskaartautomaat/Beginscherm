@@ -1,0 +1,449 @@
+__author__ = 'Dennis Strik'
+from tkinter import *
+from PIL import Image, ImageTk
+import requests
+import xmltodict
+import time
+
+
+class Beginscherm:
+
+    def __init__(self,master):
+        window.configure(bg="#fdcf19")
+        window.geometry("1366x768")
+
+        global MainFrame
+        MainFrame = Frame(master,bg="#fdcf19",height=691)
+        MainFrame.pack(side=TOP,fill=X)
+
+        global BotFrame
+        BotFrame =Frame(master,bg="#01236A",height=50)
+        BotFrame.pack(side=BOTTOM,fill=X)
+
+        self.LabWelkom = Label(MainFrame,text="Welkom bij NS",fg="#01236A",bg="#fdcf19",font=("arial", 33))
+        self.LabWelkom.place(relx=0.5, rely=0.5,y=-250, anchor=CENTER)
+
+        self.LabPhoto1= Label(MainFrame,image=photo1,bg="#fdcf19")
+        self.LabPhoto1.place(relx=0.5, rely=0.5,y=-100, anchor=CENTER)
+
+        self.LabPhoto2= Label (BotFrame,image=photo2,bg="#01236A")
+        self.LabPhoto2.place(relx=0.5, rely=0.5,y=5,anchor=E)
+
+
+        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButKaartje.place(relx=0.5, rely=0.5,y=109,x=-350, anchor=CENTER)
+
+        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButOV.place(relx=0.5, rely=0.5,y=109,x=-120, anchor=CENTER)
+
+        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15))
+        self.ButBuitenland.place(relx=0.5, rely=0.5,y=109,x=110, anchor=CENTER)
+
+        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15))
+        self.ButReisinfo.place(relx=0.5, rely=0.5,y=109,x=340, anchor=CENTER)
+
+        self.ButReisinfo= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
+        self.ButReisinfo.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
+
+
+    def bReisInformatie(self):
+        MainFrame.destroy()
+        BotFrame.destroy()
+        Treinen(window)
+
+    def bNiet(self):
+        MainFrame.destroy()
+        BotFrame.destroy()
+        nietVoorOnzeOpdracht(window)
+
+    def bStoring(self):
+        MainFrame.destroy()
+        BotFrame.destroy()
+        Storingen(window)
+
+class Treinen:
+
+    def __init__(self,master):
+
+        global response
+        response = requests.get(url, auth=(user, passw))
+        global xmldi
+        xmldi = xmltodict.parse(response.text)
+        global frame2
+        frame2= Frame(master,bg="#fdcf19")
+        frame2.pack(side=TOP,fill=X)
+
+        tijd = time.strftime("%H:%M")
+
+        #Labels voor de koptekst
+        self.labeltijd = Label(frame2, anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
+        self.LabelVertraging = Label(frame2, anchor='w',text='',fg="#003399",bg="#fdcf19", width=4).grid(row=0,column=1)
+        self.labelnaar = Label(frame2, anchor='w',text='Naar', fg="#003399",bg="#fdcf19", width=25).grid(row=0,column=2)
+        self.labelvertrekspoor = Label(frame2,anchor='w',text='Spoor', fg="#003399",bg="#fdcf19", width=12).grid(row=0,column=3)
+        self.labelroutetekst = Label(frame2,anchor='w',text='Via', fg="#003399",bg="#fdcf19", width=60).grid(row=0,column=4)
+        self.labelvervoerder = Label(frame2,anchor='w',text='Vervoerder', fg="#003399",bg="#fdcf19", width=18).grid(row=0,column=5)
+        self.labelritnummer = Label(frame2,anchor='w',text='Ritnummer', fg="#003399",bg="#fdcf19", width=15).grid(row=0,column=6)
+        self.labeltreinsoort = Label(frame2,anchor='w',text='Treinsoort', fg="#003399",bg="#fdcf19", width=15).grid(row=0,column=7)
+
+        for hoeveelstetrein in range(0, aantaltreinen):
+            if hoeveelstetrein % 2 == 0:
+                kleur = "#003399"
+            else:
+                kleur = "#0000ff"
+
+            self.tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
+            self.Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
+            self.Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
+            self.Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
+            self.Vertrekspoor = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekSpoor']['#text']
+
+            try:
+                self.Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
+            except KeyError:
+                self.Vervoerder = ''
+            try:
+                self.Vertraging = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekVertragingTekst'][0:3]
+            except KeyError:
+                self.Vertraging = ''
+
+            try:
+                self.Via = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                self.Via = ''
+
+            try:
+                self.Routetekst = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                self.Routetekst = ''
+
+            rij= hoeveelstetrein+1
+
+            self.labeltijdAPI = Label(frame2,anchor='w',text=self.tijd,fg="white",bg=kleur, width=5).grid(row=rij,column=0)
+            self.labelVertraging = Label(frame2,anchor='w',text=self.Vertraging,fg="red",bg=kleur, width=4).grid(row=rij,column=1)
+            self.labelnaarAPI = Label(frame2,anchor='w',text=self.Naar, fg="white",bg=kleur, width=25).grid(row=rij,column=2)
+            self.labelvertrekspoorAPI = Label(frame2,anchor='w',text=self.Vertrekspoor, fg="white",bg=kleur, width=12).grid(row=rij,column=3)
+            self.labelroutetekstAPI = Label(frame2,anchor='w',text=self.Routetekst, fg="white",bg=kleur, width=60).grid(row=rij,column=4)
+            self.labelvervoerderAPI = Label(frame2,anchor='w',text=self.Vervoerder, fg="white",bg=kleur, width=18).grid(row=rij,column=5)
+            self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg=kleur, width=15).grid(row=rij,column=6)
+            self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
+
+
+            self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
+            self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515)
+            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
+            self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
+
+            self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
+            self.entyAnderStation = Entry().place(relx=0.5, rely=0.5,y=-100,x=540)
+            self.butAnderStation = Button(text="bekijk ander station",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
+
+            self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)
+
+            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455)
+
+    def meerResult(self):
+        global extra_treinen
+        global aantaltreinen
+        for hoeveelstetrein in range(aantaltreinen, aantaltreinen+6):
+            if hoeveelstetrein % 2 == 0:
+                kleur = "#003399"
+            else:
+                kleur = "#0000ff"
+
+            self.tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
+            self.Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
+            self.Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
+            self.Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
+            self.Vertrekspoor = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekSpoor']['#text']
+
+            try:
+                self.Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
+            except KeyError:
+                self.Vervoerder = ''
+            try:
+                self.Vertraging = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekVertragingTekst'][0:2]
+            except KeyError:
+                self.Vertraging = ''
+
+            try:
+                self.Via = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                self.Via = ''
+
+            try:
+                self.Routetekst = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RouteTekst']
+            except KeyError:
+                self.Routetekst = ''
+
+            rij= hoeveelstetrein+1
+
+            self.labeltijdAPI = Label(frame2,anchor='w',text=self.tijd,fg="white",bg=kleur, width=5).grid(row=rij,column=0)
+            self.labelVertraging = Label(frame2,anchor='w',text=self.Vertraging,fg="red",bg=kleur, width=4).grid(row=rij,column=1)
+            self.labelnaarAPI = Label(frame2,anchor='w',text=self.Naar, fg="white",bg=kleur, width=25).grid(row=rij,column=2)
+            self.labelvertrekspoorAPI = Label(frame2,anchor='w',text=self.Vertrekspoor, fg="white",bg=kleur, width=12).grid(row=rij,column=3)
+            self.labelroutetekstAPI = Label(frame2,anchor='w',text=self.Routetekst, fg="white",bg=kleur, width=60).grid(row=rij,column=4)
+            self.labelvervoerderAPI = Label(frame2,anchor='w',text=self.Vervoerder, fg="white",bg=kleur, width=18).grid(row=rij,column=5)
+            self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg=kleur, width=15).grid(row=rij,column=6)
+            self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
+
+        aantaltreinen +=6
+        extra_treinen +=1
+
+        if extra_treinen == 2:
+            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=DISABLED, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
+
+
+
+    def refresh(self):
+        frame2.destroy()
+        global extra_treinen
+        global aantaltreinen
+        aantaltreinen = 16
+        extra_treinen=0
+        Treinen(window)
+
+    def update_timeText(self):
+        current = time.strftime("%H:%M:%S")
+        self.labelCurTime.config(text=current)
+        self.labelCurTime.after(1000,self.update_timeText)
+
+
+    def terug(self):
+        global aantaltreinen
+        global extra_treinen
+        aantaltreinen = 16
+        frame2.destroy()
+        Beginscherm(window)
+        extra_treinen = 0
+
+    def bStoring(self):
+        frame2.destroy()
+        Storingen(window)
+
+class nietVoorOnzeOpdracht:
+    def __init__(self,master):
+
+        global frame4
+        frame4 = Frame(master, bg="#fdcf19", height=768)
+        frame4.pack(side=TOP, fill=X)
+
+        self.NotMyJob= Label(frame4,image=nietOnzeOpdr,bg="#fdcf19")
+        self.NotMyJob.place(relx=0.5, rely=0.5,y=-100, anchor=CENTER)
+
+        self.nietOnzeOpdr = Label(frame4,text='Dit onderdeel behoord niet tot ons project', fg="#01236A", bg="#fdcf19",font=("arial",20))
+        self.nietOnzeOpdr.place(anchor=CENTER,relx=0.5, rely=0.5,x=-200,y=240)
+
+        self.buttonTerug = Button(frame4,text='Terug', fg="white",bg="#01236A",width=19,height=3,command=self.terug2,font=("arial",15)).place(anchor=CENTER,relx=0.5, rely=0.5,x=250, y=240)
+
+    def terug2(self):
+        frame4.destroy()
+        Beginscherm(window)
+
+
+class Storingen:
+    def __init__(self,master):
+        global responseStoring
+        responseStoring = requests.get(urlStoring, auth=(user, passw))
+        global xmldiStoring
+        xmldiStoring = xmltodict.parse(responseStoring.text)
+
+        global framestoring
+        framestoring= Frame(master,bg="#fdcf19")
+        framestoring.pack(side=TOP,fill=X)
+
+
+
+        self.labelstoringen = Label(framestoring,anchor='w',text='Storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=1,column=0)
+        self.labelongepland = Label(framestoring,anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
+        self.labelgepland = Label(framestoring,anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
+        #self.terugbutton = Button(framestoring,text="Terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=1200, y=550)
+        self.hoofdmenuBbutton = Button(framestoring,text="Frame stopt hier↓",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=0, y=410)
+
+        for storing in range(0, allestoringen):
+            self.id1 =''
+            self.test = 0
+
+            try:
+                self.id1 = xmldiStoring['Storingen']['Ongepland']['Storing']['id']
+                self.test = 1
+            except IndexError:
+                self.id1=''
+            except KeyError:
+                self.id1= ''
+            except TypeError:
+                self.id1=''
+
+
+            if self.id1 == '':
+                try:
+                    self.id1 = xmldiStoring['Storingen']['Ongepland']['Storing'][storing]['id']
+                    self.test = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            if self.test == 2:
+                self.traject1 = xmldiStoring['Storingen']['Ongepland']['Storing'][storing]['Traject']
+                self.reden1 = xmldiStoring['Storingen']['Ongepland']['Storing'][storing]['Reden']
+                self.bericht1 = xmldiStoring['Storingen']['Ongepland']['Storing'][storing]['Bericht']
+                self.datum1 = xmldiStoring['Storingen']['Ongepland']["Storing"][storing]['Datum']
+
+                self.rij = storing+4
+
+                self.labelidongepland = Label(framestoring,anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:    '+self.traject1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:   '+self.reden1 ,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:   '+self.bericht1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+
+            elif self.test == 1:
+                self.traject1 = xmldiStoring['Storingen']['Ongepland']['Storing']['Traject']
+                self.reden1 = xmldiStoring['Storingen']['Ongepland']['Storing']['Reden']
+                self.bericht1 = xmldiStoring['Storingen']['Ongepland']['Storing']['Bericht']
+                self.datum1 = xmldiStoring['Storingen']['Ongepland']["Storing"]['Datum']
+
+                self.rij = storing+4
+
+                self.labelidongepland = Label(framestoring,anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:    '+self.traject1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:   '+self.reden1 ,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:   '+self.bericht1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+                self.rij +=1
+                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij,column=0)
+
+            else:
+                self.labelgeenonstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg='#003399',bg="#fdcf19",width=200).grid(row=30,column=0)
+                self.test = 0
+
+
+        for storing in range(0, allestoringen):
+            self.id2 =''
+            self.test2 = 0
+
+
+            try:
+                self.id2 = xmldiStoring['Storingen']['Gepland']['Storing']['id']
+                self.test2 = 1
+            except IndexError:
+                self.id2= ''
+            except KeyError:
+                self.id2=''
+            except TypeError:
+                self.id2=''
+
+
+            if self.id2 == '':
+                try:
+                    self.id2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['id']
+                    self.test2 = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            try:
+                self.id2 = xmldiStoring['Storingen']['Gepland']['Storing']['id'] or xmldiStoring['Storingen']['Gepland']['Storing'][storing]['id']
+            except IndexError:
+                print()
+            except KeyError:
+                print()
+            except TypeError:
+                print()
+
+            if self.test2 == 2:
+                self.traject2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['Traject']
+                self.periode2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['Periode']
+                self.advies2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['Advies']
+                self.oorzaak2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
+                self.vertraging2 = xmldiStoring['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+
+                self.rij2 = self.rij+30
+
+                self.labelidgepland = Label(framestoring,anchor='w',text='id:   '+self.id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 += 1
+                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:   '+self.traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 += 1
+                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 += 1
+                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.advies2[0:],font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 += 1
+                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:   '+self.oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 += 1
+                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+
+            elif self.test2 == 1:
+                self.traject2 = xmldiStoring['Storingen']['Gepland']['Storing']['Traject']
+                self.periode2 = xmldiStoring['Storingen']['Gepland']['Storing']['Periode']
+                self.advies2 = xmldiStoring['Storingen']['Gepland']['Storing']['Advies']
+                self.oorzaak2 = xmldiStoring['Storingen']['Gepland']['Storing']['Oorzaak']
+                self.vertraging2 = xmldiStoring['Storingen']['Gepland']['Storing']['Vertraging']
+
+                self.rij2 = self.rij+30
+
+                self.labelidgepland = Label(framestoring,anchor='w',text='id:   '+self.id2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 +=1
+                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:   '+self.traject2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 +=1
+                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 +=1
+
+                adviesDeel1 = self.advies2[0:100]
+                adviesDeel2 = self.advies2[100:200]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                adviesDeel5 = self.advies2[400:500]
+                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+
+
+                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 +=1
+                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:   '+self.oorzaak2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+                self.rij2 +=1
+                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="#003399",bg="#fdcf19", width=200).grid(row=self.rij2,column=0)
+
+            else:
+                self.labelgeenstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg='#003399',bg="#fdcf19",width=200).grid(row=61,column=0)
+                self.test = 0
+
+try:
+    window= Tk()
+
+    url = 'http://webservices.ns.nl/ns-api-avt?station=ut'
+    user = 'dennis-strik@hotmail.com'
+    passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
+    #response = requests.get(url, auth=(user, passw))
+    #xmldi = xmltodict.parse(response.text)
+    urlStoring = 'http://webservices.ns.nl/ns-api-storingen?station=arnhem'
+
+    hoeveelstetrein = 0
+    aantaltreinen = 16
+    extra_treinen = 0
+    storing = 0
+    allestoringen = 1
+
+    photo1 = ImageTk.PhotoImage(Image.open ("ovkaart.jpg"))
+    photo2 = ImageTk.PhotoImage(Image.open ("taalenopties.jpg"))
+    nietOnzeOpdr = ImageTk.PhotoImage(Image.open("NotMyJob.jpg"))
+
+    Beginscherm(window)
+
+
+    window.mainloop()
+except SyntaxError as error_info:
+    print("er gaat wat fout",error_info)
