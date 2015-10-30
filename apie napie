@@ -11,8 +11,6 @@ class Storingen:
         framestoring.pack(side=TOP,fill=X)
 
         self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=125).place(relx=0.5, rely=0.5,y=-330,x=-680)
-        #self.labelongepland = Label(framestoring,anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
-        #self.labelgepland = Label(framestoring,anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
         self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-370,x=455)
 
         for storing in range(0, allestoringen):
