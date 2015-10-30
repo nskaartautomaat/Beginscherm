@@ -1,81 +1,75 @@
 __author__ = 'victor'
-from tkinter import *
-from PIL import Image, ImageTk
-import requests
-import xmltodict
-import time
+from tkinter import * #TK inter wordt geladen voor de GUI
+from PIL import Image, ImageTk # PIL wordt geladen voor de plaatjes
+import requests #requests wordt geladen voor het ophalen van de API
+import xmltodict #wordt geladen om de voor het converteren van de API van xml naar dict
+import time #time wordt geladen voor het weergeven van de tijd in het programma
 
 
-class Beginscherm:
+class Beginscherm:  #de klassen die als eersts wordt gelden(het startscherm)
 
     def __init__(self,master):
-        window.configure(bg="#fdcf19")
+        window.configure(bg="#fdcf19") #start van de Klassen beginscherm en stelt het tk window in
         window.geometry("1366x768")
 
         global MainFrame
-        MainFrame = Frame(master,bg="#fdcf19",height=691)
+        MainFrame = Frame(master,bg="#fdcf19",height=720) #maakt het hoofd frame van de code en paats deze
         MainFrame.pack(side=TOP,fill=X)
 
         global BotFrame
-        BotFrame =Frame(master,bg="#01236A",height=50)
+        BotFrame =Frame(master,bg="#01236A",height=50) #maakt de frame aan de onderkant
         BotFrame.pack(side=BOTTOM,fill=X)
 
         self.LabWelkom = Label(MainFrame,text="Welkom bij NS",fg="#01236A",bg="#fdcf19",font=("arial", 33))
-        self.LabWelkom.place(relx=0.5, rely=0.5,y=-250, anchor=CENTER)
+        self.LabWelkom.place(relx=0.5, rely=0.5,y=-250, anchor=CENTER) #maakt label aan "Welkom bij NS"
 
-        self.LabPhoto1= Label(MainFrame,image=photo1,bg="#fdcf19")
+        self.LabPhoto1= Label(MainFrame,image=photo1,bg="#fdcf19") #maakt label aan met daarin het plaatje van de OV
         self.LabPhoto1.place(relx=0.5, rely=0.5,y=-100, anchor=CENTER)
 
-        self.LabPhoto2= Label (BotFrame,image=photo2,bg="#01236A")
+        self.LabPhoto2= Label (BotFrame,image=photo2,bg="#01236A") #maakt een label aan met daarin het plaatje van de taal en betaalopties
         self.LabPhoto2.place(relx=0.5, rely=0.5,y=5,anchor=E)
 
 
-        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15)) #maakt een button aan die verwijst naar "Los kaartje kopen"
         self.ButKaartje.place(relx=0.5, rely=0.5,y=109,x=-350, anchor=CENTER)
 
-        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15)) #maakt een button aan die vewrijst naar"OVkaart kopen
         self.ButOV.place(relx=0.5, rely=0.5,y=109,x=-120, anchor=CENTER)
 
-        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15))
+        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15)) #maakt een button aan die verwijst naar "ik wil naar het buitenland"
         self.ButBuitenland.place(relx=0.5, rely=0.5,y=109,x=110, anchor=CENTER)
 
-        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15))
+        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15)) #maakt een button aan die verwijst naar de reisinformatie
         self.ButReisinfo.place(relx=0.5, rely=0.5,y=109,x=340, anchor=CENTER)
 
-        #self.ButStoringen= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
-        #self.ButStoringen.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
 
 
-    def bReisInformatie(self):
+
+    def bReisInformatie(self): #functie voor "ButReisInfo" die de volgende classen start
         MainFrame.destroy()
         BotFrame.destroy()
         Treinen(window)
 
-    def bNiet(self):
+    def bNiet(self): #functie voor de overige buttons die een calssen laadt
         MainFrame.destroy()
         BotFrame.destroy()
         nietVoorOnzeOpdracht(window)
 
-    def bStoring(self):
-        MainFrame.destroy()
-        BotFrame.destroy()
-        Storingen(window)
 
-
-class Treinen:
+class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht Centraal
 
     def __init__(self,master):
 
         global response
-        response = requests.get(url, auth=(user, passw))
+        response = requests.get(url, auth=(user, passw))#haalt het XML bestand via de API op
         global xmldi
-        xmldi = xmltodict.parse(response.text)
+        xmldi = xmltodict.parse(response.text) #zet het XML bestand in een dictionary
         global frame2
-        frame2= Frame(master,bg="#fdcf19")
+        frame2= Frame(master,bg="#fdcf19") #maakt het frame voor de reistijden aan
         frame2.pack(side=TOP,fill=X)
 
 
-        tijd = time.strftime("%H:%M")
+        tijd = time.strftime("%H:%M") #slaat de huidige tijd van het hostsysteem op in een variabelen
 
         #Labels voor de koptekst
         self.labeltijd = Label(frame2, anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
@@ -146,7 +140,7 @@ class Treinen:
 
             self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455)
 
-    def meerResult(self):
+    def meerResult(self): #voegt meer reistijden toe aan het aan de actuele reistijden
         global extra_treinen
         global aantaltreinen
         for hoeveelstetrein in range(aantaltreinen, aantaltreinen+6):
@@ -199,7 +193,7 @@ class Treinen:
 
 
 
-    def refresh(self):
+    def refresh(self): #refreshed de actuele vertrektijden
         frame2.destroy()
         global extra_treinen
         global aantaltreinen
@@ -207,13 +201,8 @@ class Treinen:
         extra_treinen=0
         Treinen(window)
 
-    def update_timeText(self):
-        current = time.strftime("%H:%M:%S")
-        self.labelCurTime.config(text=current)
-        self.labelCurTime.after(1000,self.update_timeText)
 
-
-    def terug(self):
+    def terug(self): #gaat terug naar het beginscherm
         global aantaltreinen
         global extra_treinen
         aantaltreinen = 16
@@ -221,12 +210,12 @@ class Treinen:
         Beginscherm(window)
         extra_treinen = 0
 
-    def bStoring(self):
+    def bStoring(self): #opent de Klassen 
         frame2.destroy()
         Storingen(window)
 
 
-class nietVoorOnzeOpdracht:
+class nietVoorOnzeOpdracht: # laat een plaatje zien bij de knoppen die niet voor ons project bedoeld zijn.
     def __init__(self,master):
 
         global frame4
@@ -241,12 +230,12 @@ class nietVoorOnzeOpdracht:
 
         self.buttonTerug = Button(frame4,text='Terug', fg="white",bg="#01236A",width=19,height=3,command=self.terug2,font=("arial",15)).place(anchor=CENTER,relx=0.5, rely=0.5,x=250, y=240)
 
-    def terug2(self):
+    def terug2(self): # gaat terug naar het beginscherm
         frame4.destroy()
         Beginscherm(window)
 
 
-class Storingen:
+class Storingen: # start de klasse storingen
 
     def __init__(self,master):
 
@@ -496,13 +485,12 @@ try:
 
 
     photo1 = ImageTk.PhotoImage(Image.open ("ovkaart.jpg"))
-    photo2 = ImageTk.PhotoImage(Image.open ("taalenopties.jpg"))
+    photo2 = ImageTk.PhotoImage(Image.open ("taalenopties.jpg")) # dit zij de plaatjes die zijn toegevoegd in het programma
     nietOnzeOpdr = ImageTk.PhotoImage(Image.open("NotMyJob.jpg"))
 
-    Beginscherm(window)
+    Beginscherm(window) # start beginschem 
 
 
     window.mainloop()
 except SyntaxError as error_info:
     print("er gaat wat fout",error_info)
-
