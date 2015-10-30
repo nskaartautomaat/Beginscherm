@@ -250,12 +250,15 @@ class Storingen:
 
     def __init__(self,master):
 
+        global FStoringen
+        FStoringen = Frame(master,bg="#fdcf19",height = 720)
+        FStoringen.pack(side=TOP, fill=X)
         xmldiS = xmltodict.parse(responseStoring.text)
 
-        self.labelstoringen = Label(anchor='w',text='Storingen',font=("ariel",25),fg="#003399",bg="#fdcf19", width=8).place(relx=0.5, rely=0.5,y=-380,x=-680)
-        self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-370,x=455)
-        self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
-        self.labelleeg = Label(bg="#fdcf19",width=100, height=600).place(relx=0.5, rely=0.5,y=-280,x=455)
+        self.labelstoringen = Label(FStoringen, anchor='w',text='Storingen',font=("ariel",18),fg="#003399",bg="#fdcf19", width=8).place(relx=0.5, rely=0.5,y=-360,x=-680)
+        self.terugbutton = Button(FStoringen, text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15), command=self.terugBStoringen).place(relx=0.5, rely=0.5,y=-355,x=455)
+        self.labVensterRechts = Label(FStoringen, text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
+        self.labelleeg = Label(FStoringen, bg="#fdcf19",width=100, height=600).place(relx=0.5, rely=0.5,y=-280,x=455)
 
         for storing in range(0, allestoringen):
             self.id1 =''
@@ -263,7 +266,7 @@ class Storingen:
 
             self.ywaarde = -330
 
-            self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+            self.labelongepland = Label(FStoringen, anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
 
 
 
@@ -298,15 +301,15 @@ class Storingen:
 
 
                 self.ywaarde +=20
-                self.labelidongepland = Label(anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.labelidongepland = Label(FStoringen, anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeltrajectongepland = Label(anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeltrajectongepland = Label(FStoringen, anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelredenongepland = Label(anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelredenongepland = Label(FStoringen, anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelberichtongepland = Label(anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelberichtongepland = Label(FStoringen, anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeldatumongepland = Label(anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeldatumongepland = Label(FStoringen, anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
 
             elif self.test == 1:
                 self.traject1 = xmldiS['Storingen']['Ongepland']['Storing']['Traject']
@@ -316,18 +319,18 @@ class Storingen:
 
 
                 self.ywaarde +=20
-                self.labelidongepland = Label(anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.labelidongepland = Label(FStoringen, anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeltrajectongepland = Label(anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeltrajectongepland = Label(FStoringen, anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelredenongepland = Label(anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelredenongepland = Label(FStoringen, anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelberichtongepland = Label(anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelberichtongepland = Label(FStoringen, anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeldatumongepland = Label(anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeldatumongepland = Label(FStoringen, anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
             else:
                 self.ywaarde +=20
-                self.labelgeenonstoring = Label(anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelgeenonstoring = Label(FStoringen, anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.test = 0
 
 
@@ -336,7 +339,7 @@ class Storingen:
             self.test2 = 0
 
             self.ywaarde2 = self.ywaarde + 40
-            self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+            self.labelgepland = Label(FStoringen, anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             try:
                 self.id2 = xmldiS['Storingen']['Gepland']['Storing']['id']
@@ -377,11 +380,11 @@ class Storingen:
                 self.vertraging2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Vertraging']
 
                 self.ywaarde2 +=20
-                self.labelidgepland = Label(anchor='w',text='id:             '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelidgepland = Label(FStoringen, anchor='w',text='id:             '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 += 20
-                self.labeltrajectgepland = Label(anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeltrajectgepland = Label(FStoringen, anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 += 20
-                self.labelperiodegepland = Label(anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=-self.ywaarde2,x=-680)
+                self.labelperiodegepland = Label(FStoringen, anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=-self.ywaarde2,x=-680)
                 self.ywaarde2 += 20
 
                 adviesDeel1 = self.advies2[0:140]
@@ -394,11 +397,11 @@ class Storingen:
                 self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
 
 
-                self.labeladviesgepland = Label(fanchor='w',text='advies:        '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeladviesgepland = Label(FStoringen, fanchor='w',text='advies:        '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=56
-                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:        '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeloorzaakgepland = Label(FStoringen, anchor='w',text='oorzaak:        '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 += 20
-                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelvertraginggepland = Label(FStoringen, anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             elif self.test2 == 1:
                 self.traject2 = xmldiS['Storingen']['Gepland']['Storing']['Traject']
@@ -408,11 +411,11 @@ class Storingen:
                 self.vertraging2 = xmldiS['Storingen']['Gepland']['Storing']['Vertraging']
 
                 self.ywaarde2 +=20
-                self.labelidgepland = Label(anchor='w',text='id:                '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelidgepland = Label(FStoringen, anchor='w',text='id:                '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=20
-                self.labeltrajectgepland = Label(anchor='w',text='traject:         '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeltrajectgepland = Label(FStoringen, anchor='w',text='traject:         '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=20
-                self.labelperiodegepland = Label(anchor='w',text='periode:       '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelperiodegepland = Label(FStoringen, anchor='w',text='periode:       '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=20
 
                 adviesDeel1 = self.advies2[0:140]
@@ -424,17 +427,21 @@ class Storingen:
                 adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
                 self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
 
-                self.labeladviesgepland = Label(anchor='w',text='advies:         '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeladviesgepland = Label(FStoringen, anchor='w',text='advies:         '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=56
-                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:      '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeloorzaakgepland = Label(FStoringen, anchor='w',text='oorzaak:      '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=20
-                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelvertraginggepland = Label(FStoringen, anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             else:
                 self.ywaarde2 +=20
-                self.labelgeenstoring = Label(anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelgeenstoring = Label(FStoringen, anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.test = 0
 
+    def terugBStoringen(self):
+        global FStoringen
+        FStoringen.destroy()
+        Treinen(window)
 
 
 try:
