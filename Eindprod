@@ -71,7 +71,7 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
 
         tijd = time.strftime("%H:%M") #slaat de huidige tijd van het hostsysteem op in een variabelen
 
-        #Labels voor de koptekst
+        #Labels voor de koptekst: de tijd, Naar, Spoor, routetekst als via, vervoerder, ritnummer en de treinsoort
         self.labeltijd = Label(frame2, anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
         self.LabelVertraging = Label(frame2, anchor='w',text='',fg="#003399",bg="#fdcf19", width=4).grid(row=0,column=1)
         self.labelnaar = Label(frame2, anchor='w',text='Naar', fg="#003399",bg="#fdcf19", width=25).grid(row=0,column=2)
@@ -82,17 +82,23 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
         self.labeltreinsoort = Label(frame2,anchor='w',text='Treinsoort', fg="#003399",bg="#fdcf19", width=15).grid(row=0,column=7)
 
         for hoeveelstetrein in range(0, aantaltreinen):
+            #een if statement om de verschillende rijen een andere kleur te geven
+            #de even en oneven getallen krijgen andere kleuren
             if hoeveelstetrein % 2 == 0:
                 kleur = "#003399"
             else:
                 kleur = "#0000ff"
 
+
+            #Hier wordt de tekst die we nodig hebben uit de dictionary als Label opgeslagen
             self.tijd = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekTijd'][11:16]
             self.Naar = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['EindBestemming']
             self.Ritnummer = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['RitNummer']
             self.Treinsoort = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['TreinSoort']
             self.Vertrekspoor = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['VertrekSpoor']['#text']
 
+
+            #Hier worden try excepts voor KeyErrors gegeven omdat deze waarden niet altijd in de API staan
             try:
                 self.Vervoerder = xmldi['ActueleVertrekTijden']['VertrekkendeTrein'][hoeveelstetrein]['Vervoerder']
             except KeyError:
@@ -112,6 +118,8 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
             except KeyError:
                 self.Routetekst = ''
 
+            #Hier wordt de rij waar de tekst moet worden geplaatst weergegeven
+            #je begint bij rij 1 omdat op rij 0 de koptekst staat
             rij= hoeveelstetrein+1
 
             self.labeltijdAPI = Label(frame2,anchor='w',text=self.tijd,fg="white",bg=kleur, width=5).grid(row=rij,column=0)
@@ -123,12 +131,15 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
             self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg=kleur, width=15).grid(row=rij,column=6)
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
 
-
+            #dit zijn de labels knoppen en tijd
             self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
             self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515)
             self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
             self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
 
+            #Dit is het invoerveld en de knop voor het zoeken van een ander station
+            #Dit invoerveld en de button zijn disabled omdat ze in deze code niet werken
+            #De code werkt los van deze applicatie wel
             self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
             global entyAnderStation
             entyAnderStation = Entry(master,state=DISABLED)
@@ -140,6 +151,10 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
 
             self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455)
 
+
+    #Dit is de functie voor de knop meer resultaten
+    #hier wordt bijna hetzelfde gedaan als bij het begin van de klasse treinen
+    #namenlijk weer het ophalen van de juiste gegevens uit de dictionary en meegeven van een kleur
     def meerResult(self): #voegt meer reistijden toe aan het aan de actuele reistijden
         global extra_treinen
         global aantaltreinen
@@ -184,15 +199,18 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
             self.labelvervoerderAPI = Label(frame2,anchor='w',text=self.Vervoerder, fg="white",bg=kleur, width=18).grid(row=rij,column=5)
             self.labelritnummerAPI = Label(frame2,anchor='w',text=self.Ritnummer, fg="white",bg=kleur, width=15).grid(row=rij,column=6)
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
-
+        
+        #hier zet hij het aantal treinen 6 hoger omdat je 6 treinen toevoegt, dan begint hij als je nog meer treinen toe wil voegen bij een waarde meer dan 6
         aantaltreinen +=6
+        #extra treinen staat standaard op 0 en wordt als je op de button extra treinen drukt 1 hoger
         extra_treinen +=1
 
+        #we wilden dat je maximaal 2x extra treinen kon toevoegen, dus is hier een statement gemaakt die bij extra_treinen==2 de button disabled
         if extra_treinen == 2:
             self.buttonMeerResultaten = Button(text='Meer \n treinen', state=DISABLED, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
 
 
-
+    #functie voor het verversen van de treinen en tijd
     def refresh(self): #refreshed de actuele vertrektijden
         frame2.destroy()
         global extra_treinen
@@ -200,7 +218,6 @@ class Treinen: #klassen van de actuele reis informatie voor het stataion Utrecht
         aantaltreinen = 16
         extra_treinen=0
         Treinen(window)
-
 
     def terug(self): #gaat terug naar het beginscherm
         global aantaltreinen
