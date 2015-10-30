@@ -1,0 +1,219 @@
+import requests
+import xmltodict
+from tkinter import *
+
+
+class Storingen:
+
+    def __init__(self,master):
+        global framestoring
+        framestoring= Frame(master,bg="#fdcf19")
+        framestoring.pack(side=TOP,fill=X)
+
+        self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=125).place(relx=0.5, rely=0.5,y=-330,x=-680)
+        #self.labelongepland = Label(framestoring,anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
+        #self.labelgepland = Label(framestoring,anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
+        self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-370,x=455)
+
+        for storing in range(0, allestoringen):
+            self.id1 =''
+            self.test = 0
+
+            self.ywaarde = -330
+
+            self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+
+
+
+
+            try:
+                self.id1 = xmldi['Storingen']['Ongepland']['Storing']['id']
+                self.test = 1
+            except IndexError:
+                self.id1=''
+            except KeyError:
+                self.id1= ''
+            except TypeError:
+                self.id1=''
+
+
+            if self.id1 == '':
+                try:
+                    self.id1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['id']
+                    self.test = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            if self.test == 2:
+                self.traject1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Traject']
+                self.reden1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Reden']
+                self.bericht1 = xmldi['Storingen']['Ongepland']['Storing'][storing]['Bericht']
+                self.datum1 = xmldi['Storingen']['Ongepland']["Storing"][storing]['Datum']
+
+
+                self.ywaarde +=20
+                self.labelidongepland = Label(framestoring,anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:       '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+
+            elif self.test == 1:
+                self.traject1 = xmldi['Storingen']['Ongepland']['Storing']['Traject']
+                self.reden1 = xmldi['Storingen']['Ongepland']['Storing']['Reden']
+                self.bericht1 = xmldi['Storingen']['Ongepland']['Storing']['Bericht']
+                self.datum1 = xmldi['Storingen']['Ongepland']["Storing"]['Datum']
+
+
+                self.ywaarde +=20
+                self.labelidongepland = Label(framestoring,anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:       '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+            else:
+                self.ywaarde +=20
+                self.labelgeenonstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.test = 0
+
+
+        for storing in range(0, allestoringen):
+            self.id2 =''
+            self.test2 = 0
+
+            self.ywaarde2 = self.ywaarde + 30
+            self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+
+            try:
+                self.id2 = xmldi['Storingen']['Gepland']['Storing']['id']
+                self.test2 = 1
+            except IndexError:
+                self.id2= ''
+            except KeyError:
+                self.id2=''
+            except TypeError:
+                self.id2=''
+
+
+            if self.id2 == '':
+                try:
+                    self.id2 = xmldi['Storingen']['Gepland']['Storing'][storing]['id']
+                    self.test2 = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            try:
+                self.id2 = xmldi['Storingen']['Gepland']['Storing']['id'] or xmldi['Storingen']['Gepland']['Storing'][storing]['id']
+            except IndexError:
+                print()
+            except KeyError:
+                print()
+            except TypeError:
+                print()
+
+            if self.test2 == 2:
+                self.traject2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Traject']
+                self.periode2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Periode']
+                self.advies2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Advies']
+                self.oorzaak2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
+                self.vertraging2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+
+
+                self.labelidgepland = Label(framestoring,anchor='w',text='id:     '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=-self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                
+                adviesDeel1 = self.advies2[0:100]
+                adviesDeel2 = self.advies2[100:200]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                adviesDeel5 = self.advies2[400:500]
+                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+
+                
+                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:      '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:     '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:     '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+
+            elif self.test2 == 1:
+                self.traject2 = xmldi['Storingen']['Gepland']['Storing']['Traject']
+                self.periode2 = xmldi['Storingen']['Gepland']['Storing']['Periode']
+                self.advies2 = xmldi['Storingen']['Gepland']['Storing']['Advies']
+                self.oorzaak2 = xmldi['Storingen']['Gepland']['Storing']['Oorzaak']
+                self.vertraging2 = xmldi['Storingen']['Gepland']['Storing']['Vertraging']
+
+
+                self.labelidgepland = Label(framestoring,anchor='w',text='id:   '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:   '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                
+                adviesDeel1 = self.advies2[0:100]
+                adviesDeel2 = self.advies2[100:200]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                adviesDeel5 = self.advies2[400:500]
+                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+
+                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:   '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+
+            else:
+                self.ywaarde2 +=20
+                self.labelgeenstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.test = 0
+
+window = Tk()
+
+url = 'http://webservices.ns.nl/ns-api-storingen?station=arnhem'
+user = 'victor_shao@hotmail.com'
+passw = 'dMHAg67WACsUdrQmqctr3giaTpTnsJmhPP2EcQWlVnMw3zmHXvSE-A'
+response = requests.get(url, auth=(user, passw))
+
+xmldi = xmltodict.parse(response.text)
+
+storing = 0
+allestoringen = 1
+
+
+
+storingen= Storingen(window)
+
+
+
+
+window.mainloop()
