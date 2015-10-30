@@ -1,4 +1,4 @@
-__author__ = 'victor'
+__author__ = 'Dennis Strik'
 from tkinter import *
 from PIL import Image, ImageTk
 import requests
