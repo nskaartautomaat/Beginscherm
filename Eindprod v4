@@ -1,81 +1,76 @@
 __author__ = 'Dennis Strik'
-from tkinter import *
-from PIL import Image, ImageTk
-import requests
-import xmltodict
-import time
+from tkinter import * #TK inter wordt geladen voor de GUI
+from PIL import Image, ImageTk # PIL wordt geladen voor de plaatjes
+import requests #requests wordt geladen voor het ophalen van de API
+import xmltodict #wordt geladen om de voor het converteren van de API van xml naar dict
+import time #time wordt geladen voor het weergeven van de tijd in het programma
 
 
-class Beginscherm:
+class Beginscherm: #de classen die als eersts wordt gelden(het startscherm)
 
     def __init__(self,master):
-        window.configure(bg="#fdcf19")
+        window.configure(bg="#fdcf19")  #start van de classen beginscherm en stelt het tk window in
         window.geometry("1366x768")
 
         global MainFrame
-        MainFrame = Frame(master,bg="#fdcf19",height=720)
+        MainFrame = Frame(master,bg="#fdcf19",height=720) #maakt het hoofd frame van de code en paats deze
         MainFrame.pack(side=TOP,fill=X)
 
         global BotFrame
-        BotFrame =Frame(master,bg="#01236A",height=50)
+        BotFrame =Frame(master,bg="#01236A",height=50) #maakt de frame aan de onderkant
         BotFrame.pack(side=BOTTOM,fill=X)
 
         self.LabWelkom = Label(MainFrame,text="Welkom bij NS",fg="#01236A",bg="#fdcf19",font=("arial", 33))
-        self.LabWelkom.place(relx=0.5, rely=0.5,y=-250, anchor=CENTER)
+        self.LabWelkom.place(relx=0.5, rely=0.5,y=-250, anchor=CENTER) #maakt label aan "Welkom bij NS"
 
-        self.LabPhoto1= Label(MainFrame,image=photo1,bg="#fdcf19")
+        self.LabPhoto1= Label(MainFrame,image=photo1,bg="#fdcf19") #maakt label aan met daarin het plaatje van de OV
         self.LabPhoto1.place(relx=0.5, rely=0.5,y=-100, anchor=CENTER)
 
-        self.LabPhoto2= Label (BotFrame,image=photo2,bg="#01236A")
+        self.LabPhoto2= Label (BotFrame,image=photo2,bg="#01236A") #maakt een label aan met daarin het plaatje van de taal en betaalopties
         self.LabPhoto2.place(relx=0.5, rely=0.5,y=5,anchor=E)
 
 
-        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15)) #maakt een button aan die verwijst naar "Los kaartje kopen"
         self.ButKaartje.place(relx=0.5, rely=0.5,y=109,x=-350, anchor=CENTER)
 
-        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
+        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15)) #maakt een button aan die vewrijst naar"OVkaart kopen
         self.ButOV.place(relx=0.5, rely=0.5,y=109,x=-120, anchor=CENTER)
 
-        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15))
+        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15)) #maakt een button aan die verwijst naar "ik wil naar het buitenland"
         self.ButBuitenland.place(relx=0.5, rely=0.5,y=109,x=110, anchor=CENTER)
 
-        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15))
+        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15)) #maakt een button aan die verwijst naar de reisinformatie
         self.ButReisinfo.place(relx=0.5, rely=0.5,y=109,x=340, anchor=CENTER)
 
-        #self.ButStoringen= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
-        #self.ButStoringen.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
 
 
-    def bReisInformatie(self):
+    def bReisInformatie(self): #functie voor "ButReisInfo" die de volgende classen start
         MainFrame.destroy()
         BotFrame.destroy()
         Treinen(window)
 
-    def bNiet(self):
+    def bNiet(self): #functie voor de overige buttons die een calssen laadt
         MainFrame.destroy()
         BotFrame.destroy()
         nietVoorOnzeOpdracht(window)
 
-    def bStoring(self):
-        MainFrame.destroy()
-        BotFrame.destroy()
-        Storingen(window)
 
 
-class Treinen:
 
-    def __init__(self,master):
+class Treinen: #classen van de actuele reis informatie voor het stataion Utrecht Centraal
+
+    def __init__(self,master):#
 
         global response
-        response = requests.get(url, auth=(user, passw))
+        response = requests.get(url, auth=(user, passw)) #haalt het XML bestand via de API op
         global xmldi
-        xmldi = xmltodict.parse(response.text)
+        xmldi = xmltodict.parse(response.text) #zet het XML bestand in een dictionary
         global frame2
-        frame2= Frame(master,bg="#fdcf19")
+        frame2= Frame(master,bg="#fdcf19") #maakt het frame voor de reistijden aan
         frame2.pack(side=TOP,fill=X)
 
 
-        tijd = time.strftime("%H:%M")
+        tijd = time.strftime("%H:%M") # slaat de huidige tijd van het hostsysteem op in een variabelen
 
         #Labels voor de koptekst
         self.labeltijd = Label(frame2, anchor='w',text='Tijd',fg="#003399",bg="#fdcf19", width=5).grid(row=0,column=0)
@@ -130,21 +125,21 @@ class Treinen:
             self.labeltreinsoortAPI = Label(frame2,anchor='w',text=self.Treinsoort, fg="white",bg=kleur, width=15).grid(row=rij,column=7)
 
 
-            self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
-            self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515)
-            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
-            self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
+            self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445) # het het blauwe verticale lijntje die de tabel van de knoppen onderscheid
+            self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515) # de label die de huidige tijd laat zien
+            self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455) #knop die de functie meerResult oproept
+            self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455) # label die de functie refresch oproept
 
-            self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
+            self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455) #label met text "ander station"
             global entyAnderStation
-            entyAnderStation = Entry(master,state=DISABLED)
+            entyAnderStation = Entry(master,state=DISABLED) #plaatst een entry veld die is uitgeschakeld############ deze staat uigeschakeld omdat de classen niet werkt in het programma. alleen los
             entyAnderStation.insert(0,"NIET ACTIEF")
             entyAnderStation.place(relx=0.5, rely=0.5,y=-100,x=540)
-            self.butAnderStation = Button(state=DISABLED,text="NIET ACTIEF",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
+            self.butAnderStation = Button(state=DISABLED,text="NIET ACTIEF",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)# button die behoort tot de entery die ook disabled is
 
-            self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)
+            self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)# button die verwijst naar de functie bStoring
 
-            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455)
+            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455) #button die verwijst naar de funcite Terug
 
     def meerResult(self):
         global extra_treinen
