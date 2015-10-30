@@ -1,3 +1,4 @@
+__author__ = 'victor'
 from tkinter import *
 from PIL import Image, ImageTk
 import requests
@@ -29,21 +30,36 @@ class Beginscherm:
         self.LabPhoto2.place(relx=0.5, rely=0.5,y=5,anchor=E)
 
 
-        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3, font=("arial",15))
+        self.ButKaartje= Button(MainFrame,text="Kopen \nlos kaartje",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
         self.ButKaartje.place(relx=0.5, rely=0.5,y=109,x=-350, anchor=CENTER)
 
-        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3, font=("arial",15))
+        self.ButOV= Button(MainFrame,text="Kopen \nOV-chipkaart",fg="white",bg="#01236A",width=19,height=3,command=self.bNiet, font=("arial",15))
         self.ButOV.place(relx=0.5, rely=0.5,y=109,x=-120, anchor=CENTER)
 
-        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",width=19,height=3, font=("arial",15))
+        self.ButBuitenland= Button(MainFrame,text="Ik wil naar \nhet buitenland",fg="white",bg="#01236A",command=self.bNiet,width=19,height=3, font=("arial",15))
         self.ButBuitenland.place(relx=0.5, rely=0.5,y=109,x=110, anchor=CENTER)
 
-        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bpress,width=19,height=3, font=("arial",15))
+        self.ButReisinfo= Button(MainFrame,text="Actuele \nreisinformatie",fg="white",bg="#01236A",command=self.bReisInformatie,width=19,height=3, font=("arial",15))
         self.ButReisinfo.place(relx=0.5, rely=0.5,y=109,x=340, anchor=CENTER)
-    def bpress(self):
+
+        #self.ButStoringen= Button(MainFrame,text="Storing",fg="white",bg="#01236A",command=self.bStoring,width=19,height=3, font=("arial",15))
+        #self.ButStoringen.place(relx=0.5, rely=0.5,y=205,x=340, anchor=CENTER)
+
+
+    def bReisInformatie(self):
         MainFrame.destroy()
         BotFrame.destroy()
         Treinen(window)
+
+    def bNiet(self):
+        MainFrame.destroy()
+        BotFrame.destroy()
+        nietVoorOnzeOpdracht(window)
+
+    def bStoring(self):
+        MainFrame.destroy()
+        BotFrame.destroy()
+        Storingen(window)
 
 
 class Treinen:
@@ -57,6 +73,7 @@ class Treinen:
         global frame2
         frame2= Frame(master,bg="#fdcf19")
         frame2.pack(side=TOP,fill=X)
+
 
         tijd = time.strftime("%H:%M")
 
@@ -117,7 +134,17 @@ class Treinen:
             self.labelCurTime = Label(text=tijd,fg="#01236A",bg="#fdcf19",font=("arial",25)).place (relx=0.5, rely=0.5,y=-350,x=515)
             self.buttonMeerResultaten = Button(text='Meer \n treinen', state=NORMAL, fg="white",bg="#01236A",width=19,height=3, font=("arial",15), command=self.meerResult).place(relx=0.5, rely=0.5,y=-280,x=455)
             self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
-            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=-100,x=455)
+
+            self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
+            global entyAnderStation
+            entyAnderStation = Entry(master,state=DISABLED)
+            entyAnderStation.insert(0,"NIET ACTIEF")
+            entyAnderStation.place(relx=0.5, rely=0.5,y=-100,x=540)
+            self.butAnderStation = Button(state=DISABLED,text="NIET ACTIEF",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
+
+            self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)
+
+            self.buttonTerug = Button(text='Terug', fg="white",bg="#01236A",width=19,height=3, command = self.terug,font=("arial",15)).place(relx=0.5, rely=0.5,y=45,x=455)
 
     def meerResult(self):
         global extra_treinen
@@ -194,21 +221,283 @@ class Treinen:
         Beginscherm(window)
         extra_treinen = 0
 
+    def bStoring(self):
+        frame2.destroy()
+        Storingen(window)
+
+
+class nietVoorOnzeOpdracht:
+    def __init__(self,master):
+
+        global frame4
+        frame4 = Frame(master, bg="#fdcf19", height=768)
+        frame4.pack(side=TOP, fill=X)
+
+        self.NotMyJob= Label(frame4,image=nietOnzeOpdr,bg="#fdcf19")
+        self.NotMyJob.place(relx=0.5, rely=0.5,y=-100, anchor=CENTER)
+
+        self.nietOnzeOpdr = Label(frame4,text='Dit onderdeel behoord niet tot ons project', fg="#01236A", bg="#fdcf19",font=("arial",20))
+        self.nietOnzeOpdr.place(anchor=CENTER,relx=0.5, rely=0.5,x=-200,y=240)
+
+        self.buttonTerug = Button(frame4,text='Terug', fg="white",bg="#01236A",width=19,height=3,command=self.terug2,font=("arial",15)).place(anchor=CENTER,relx=0.5, rely=0.5,x=250, y=240)
+
+    def terug2(self):
+        frame4.destroy()
+        Beginscherm(window)
+
+
+class Storingen:
+
+    def __init__(self,master):
+
+        global FStoringen
+        FStoringen = Frame(master,bg="#fdcf19",height = 720)
+        FStoringen.pack(side=TOP, fill=X)
+        xmldiS = xmltodict.parse(responseStoring.text)
+        #Ze worden in een frame gezet met de stukje code hierboven.
+
+        self.labelstoringen = Label(FStoringen, anchor='w',text='Storingen',font=("ariel",18),fg="#003399",bg="#fdcf19", width=8).place(relx=0.5, rely=0.5,y=-360,x=-680)
+        self.terugbutton = Button(FStoringen, text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15), command=self.terugBStoringen).place(relx=0.5, rely=0.5,y=-355,x=455)
+        self.labVensterRechts = Label(FStoringen, text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
+        self.labelleeg = Label(FStoringen, bg="#fdcf19",width=100, height=600).place(relx=0.5, rely=0.5,y=-280,x=455)
+        #Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+        for storing in range(0, allestoringen):#deze for-loop verzorgt dat hij meerdere keren de code doorloopt zodat er als er meer dan 1 Ongeplande storing is dat die het wel ophaalt uit de api.
+            self.id1 =''
+            self.test = 0
+            #Dit is om id1 en test een naam te geven,zodat ze hierna gebruikt kunnen worden in een if statement.
+
+            self.ywaarde = -330
+            #Dit is de begin waarde van ywaarde, zodat alle y cordinaties die hier na komen er op gebaseerd worden.
+
+            self.labelongepland = Label(FStoringen, anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+
+
+
+
+            try:  # Ik gebruik hier een try catch voor id1, zodat er geen error code komt als er iets veranderd aan de api.
+                self.id1 = xmldiS['Storingen']['Ongepland']['Storing']['id']
+                self.test = 1
+            except IndexError:
+                self.id1=''
+            except KeyError:
+                self.id1= ''
+            except TypeError:
+                self.id1=''
+
+
+            if self.id1 == '':
+                try: # Ik gebruik hier een try catch voor id1, zodat er geen error code komt als er iets veranderd aan de api.
+                    self.id1 = xmldiS['Storingen']['Ongepland']['Storing'][storing]['id']
+                    self.test = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            if self.test == 2: # Hier zit een if statment, zodat ze de goede code gebruiken om informatie van api te halen
+                               # want als er is een verschil in code als er meer dan 1 storingen zijn.
+                self.traject1 = xmldiS['Storingen']['Ongepland']['Storing'][storing]['Traject']
+                self.reden1 = xmldiS['Storingen']['Ongepland']['Storing'][storing]['Reden']
+                self.bericht1 = xmldiS['Storingen']['Ongepland']['Storing'][storing]['Bericht']
+                self.datum1 = xmldiS['Storingen']['Ongepland']["Storing"][storing]['Datum']
+                # Deze code verzorgt dat we de juist informatie uit die dictonary halen in die api.
+
+                self.ywaarde +=20
+                self.labelidongepland = Label(FStoringen, anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeltrajectongepland = Label(FStoringen, anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelredenongepland = Label(FStoringen, anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelberichtongepland = Label(FStoringen, anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeldatumongepland = Label(FStoringen, anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Alle ywaarde +20 zijn bedoelt om de labels op de goede locatie te doen zodat ze niet overelkaar staan.
+                #Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+
+
+            elif self.test == 1:# Hier zit een if statment, zodat ze de goede code gebruiken om informatie van api te halen
+                                # want als er is een verschil in code als er meer dan 1 storingen zijn.
+                self.traject1 = xmldiS['Storingen']['Ongepland']['Storing']['Traject']
+                self.reden1 = xmldiS['Storingen']['Ongepland']['Storing']['Reden']
+                self.bericht1 = xmldiS['Storingen']['Ongepland']['Storing']['Bericht']
+                self.datum1 = xmldiS['Storingen']['Ongepland']["Storing"]['Datum']
+                # Deze code verzorgt dat we de juist informatie uit die dictonary halen in die api.
+
+                self.ywaarde +=20
+                self.labelidongepland = Label(FStoringen, anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeltrajectongepland = Label(FStoringen, anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelredenongepland = Label(FStoringen, anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelberichtongepland = Label(FStoringen, anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeldatumongepland = Label(FStoringen, anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Alle ywaarde +20 zijn bedoelt om de labels op de goede locatie te doen zodat ze niet overelkaar staan.
+                #Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+            else:
+                self.ywaarde +=20
+                self.labelgeenonstoring = Label(FStoringen, anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Deze label is er voor als er een geen storing is.
+
+
+
+        for storing in range(0, allestoringen):
+            self.id2 =''
+            self.test2 = 0
+            #Dit is om id2 en test2 een naam te geven,zodat ze hierna gebruikt kunnen worden in een if statement.
+
+            self.ywaarde +=40
+
+
+            self.labelgepland = Label(FStoringen, anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+
+            try:# Ik gebruik hier een try catch voor id1, zodat er geen error code komt als er iets veranderd aan de api.
+                self.id2 = xmldiS['Storingen']['Gepland']['Storing']['id']
+                self.test2 = 1
+            except IndexError:
+                self.id2= ''
+            except KeyError:
+                self.id2=''
+            except TypeError:
+                self.id2=''
+
+
+            if self.id2 == '':
+                try:# Ik gebruik hier een try catch voor id1, zodat er geen error code komt als er iets veranderd aan de api.
+                    self.id2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['id']
+                    self.test2 = 2
+                except IndexError:
+                    print()
+                except KeyError:
+                    print()
+                except TypeError:
+                    print()
+
+            try:# Ik gebruik hier een try catch voor id1, zodat er geen error code komt als er iets veranderd aan de api.
+                self.id2 = xmldiS['Storingen']['Gepland']['Storing']['id'] or xmldiS['Storingen']['Gepland']['Storing'][storing]['id']
+            except IndexError:
+                print()
+            except KeyError:
+                print()
+            except TypeError:
+                print()
+
+            if self.test2 == 2:# Hier zit een if statment, zodat ze de goede code gebruiken om informatie van api te halen
+                               # want als er is een verschil in code als er meer dan 1 storingen zijn.
+                self.traject2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Traject']
+                self.periode2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Periode']
+                self.advies2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Advies']
+                self.oorzaak2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
+                self.vertraging2 = xmldiS['Storingen']['Gepland']['Storing'][storing]['Vertraging']
+                # Deze code verzorgt dat we de juist informatie uit die dictonary halen in die api.
+
+                self.ywaarde +=20
+                self.labelidgepland = Label(FStoringen, anchor='w',text='id:             '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde += 20
+                self.labeltrajectgepland = Label(FStoringen, anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde += 20
+                self.labelperiodegepland = Label(FStoringen, anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=-self.ywaarde,x=-680)
+                self.ywaarde += 20
+
+                adviesDeel1 = self.advies2[0:140]
+                adviesDeel2 = self.advies2[140:280]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[280:420]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[420:560]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
+                # Deze stuk met code is bedoelt om te verzorgen dat de tekst van advies niet te lang op 1 regel door gaat, omdat advies best lang is.
+
+                self.labeladviesgepland = Label(FStoringen, fanchor='w',text='advies:        '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=56
+                self.labeloorzaakgepland = Label(FStoringen, anchor='w',text='oorzaak:        '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde += 20
+                self.labelvertraginggepland = Label(FStoringen, anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Alle ywaarde +20 zijn bedoelt om de labels op de goede locatie te doen zodat ze niet overelkaar staan.
+                #Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+            elif self.test2 == 1:# Hier zit een if statment, zodat ze de goede code gebruiken om informatie van api te halen
+                                 # want als er is een verschil in code als er meer dan 1 storingen zijn.
+                self.traject2 = xmldiS['Storingen']['Gepland']['Storing']['Traject']
+                self.periode2 = xmldiS['Storingen']['Gepland']['Storing']['Periode']
+                self.advies2 = xmldiS['Storingen']['Gepland']['Storing']['Advies']
+                self.oorzaak2 = xmldiS['Storingen']['Gepland']['Storing']['Oorzaak']
+                self.vertraging2 = xmldiS['Storingen']['Gepland']['Storing']['Vertraging']
+                # Deze code verzorgt dat we de juist informatie uit die dictonary halen in die api.
+
+                self.ywaarde +=20
+                self.labelidgepland = Label(FStoringen, anchor='w',text='id:                '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labeltrajectgepland = Label(FStoringen, anchor='w',text='traject:         '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelperiodegepland = Label(FStoringen, anchor='w',text='periode:       '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                # Alle ywaarde +20 zijn bedoelt om de labels op de goede locatie te doen zodat ze niet overelkaar staan.
+                # Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+
+                adviesDeel1 = self.advies2[0:140]
+                adviesDeel2 = self.advies2[140:280]
+                adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
+                adviesDeel3 = self.advies2[280:420]
+                adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
+                adviesDeel4 = self.advies2[420:560]
+                adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
+                # Deze stuk met code is bedoelt om te verzorgen dat de tekst van advies niet te lang op 1 regel door gaat, omdat advies best lang is.
+
+
+                self.labeladviesgepland = Label(FStoringen, anchor='w',text='advies:         '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=56
+                self.labeloorzaakgepland = Label(FStoringen, anchor='w',text='oorzaak:      '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.ywaarde +=20
+                self.labelvertraginggepland = Label(FStoringen, anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Alle ywaarde +20 zijn bedoelt om de labels op de goede locatie te doen zodat ze niet overelkaar staan.
+                # Dit zijn labels en buttons die in de scherm storingen moeten verschijnen. Er staat ook in wat er moet staan, hoe die er uit moet zien en waar die moet staam.
+
+            else:
+                self.ywaarde +=20
+                self.labelgeenstoring = Label(FStoringen, anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                # Deze label is er voor als er een geen storing is.
+
+
+    def terugBStoringen(self):
+        global FStoringen
+        FStoringen.destroy()
+        Treinen(window)
+    # Deze def is bedoelt om de screen weg te halen zodat hij niet voor een andere screen blijft staan
+
 
 try:
     window= Tk()
-
-    url = 'http://webservices.ns.nl/ns-api-avt?station=ut'
+    standaardStation = 'Utrecht+Centraal'
+    url = 'http://webservices.ns.nl/ns-api-avt?station='+standaardStation
     user = 'dennis-strik@hotmail.com'
     passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
-    #response = requests.get(url, auth=(user, passw))
-    #xmldi = xmltodict.parse(response.text)
+
+    urlStoring = 'http://webservices.ns.nl/ns-api-storingen?station=Utrecht+Centraal'
+
+    responseStoring = requests.get(urlStoring, auth=(user, passw))
+
     hoeveelstetrein = 0
     aantaltreinen = 16
     extra_treinen = 0
+    storing = 0
+    allestoringen = 1
+    werkende_link = True
+
 
     photo1 = ImageTk.PhotoImage(Image.open ("ovkaart.jpg"))
     photo2 = ImageTk.PhotoImage(Image.open ("taalenopties.jpg"))
+    nietOnzeOpdr = ImageTk.PhotoImage(Image.open("NotMyJob.jpg"))
 
     Beginscherm(window)
 
@@ -216,3 +505,4 @@ try:
     window.mainloop()
 except SyntaxError as error_info:
     print("er gaat wat fout",error_info)
+
