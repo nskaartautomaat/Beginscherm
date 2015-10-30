@@ -1,3 +1,5 @@
+__author__ = 'victor'
+
 import requests
 import xmltodict
 from tkinter import *
@@ -6,12 +8,10 @@ from tkinter import *
 class Storingen:
 
     def __init__(self,master):
-        global framestoring
-        framestoring= Frame(master,bg="#fdcf19")
-        framestoring.pack(side=TOP,fill=X)
 
-        self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=125).place(relx=0.5, rely=0.5,y=-330,x=-680)
+        self.labelstoringen = Label(anchor='w',text='Storingen',font=("ariel",25),fg="#003399",bg="#fdcf19", width=8).place(relx=0.5, rely=0.5,y=-380,x=-680)
         self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-370,x=455)
+        self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
 
         for storing in range(0, allestoringen):
             self.id1 =''
@@ -19,7 +19,7 @@ class Storingen:
 
             self.ywaarde = -330
 
-            self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+            self.labelongepland = Label(anchor='w',text='Ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#01236A", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
 
 
 
@@ -54,15 +54,15 @@ class Storingen:
 
 
                 self.ywaarde +=20
-                self.labelidongepland = Label(framestoring,anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.labelidongepland = Label(anchor='w',text='id:     '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeltrajectongepland = Label(anchor='w',text='traject:       '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelredenongepland = Label(anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelberichtongepland = Label(anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:       '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeldatumongepland = Label(anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
 
             elif self.test == 1:
                 self.traject1 = xmldi['Storingen']['Ongepland']['Storing']['Traject']
@@ -72,18 +72,18 @@ class Storingen:
 
 
                 self.ywaarde +=20
-                self.labelidongepland = Label(framestoring,anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
+                self.labelidongepland = Label(anchor='w',text='id:  '+self.id1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y =self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeltrajectongepland = Label(framestoring,anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeltrajectongepland = Label(anchor='w',text='traject:      '+self.traject1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelredenongepland = Label(framestoring,anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelredenongepland = Label(anchor='w',text='reden:     '+self.reden1 ,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labelberichtongepland = Label(framestoring,anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelberichtongepland = Label(anchor='w',text='bericht:     '+self.bericht1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.ywaarde +=20
-                self.labeldatumongepland = Label(framestoring,anchor='w',text='datum:       '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labeldatumongepland = Label(anchor='w',text='datum:     '+self.datum1,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
             else:
                 self.ywaarde +=20
-                self.labelgeenonstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
+                self.labelgeenonstoring = Label(anchor='w',text='Er zijn op dit moment geen ongeplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde,x=-680)
                 self.test = 0
 
 
@@ -91,8 +91,8 @@ class Storingen:
             self.id2 =''
             self.test2 = 0
 
-            self.ywaarde2 = self.ywaarde + 30
-            self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+            self.ywaarde2 = self.ywaarde + 40
+            self.labelgepland = Label(anchor='w',text='Geplande storingen',font=("ariel",11),fg='ghost white',bg='#01236A', width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             try:
                 self.id2 = xmldi['Storingen']['Gepland']['Storing']['id']
@@ -132,31 +132,29 @@ class Storingen:
                 self.oorzaak2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Oorzaak']
                 self.vertraging2 = xmldi['Storingen']['Gepland']['Storing'][storing]['Vertraging']
 
+                self.ywaarde2 +=20
+                self.labelidgepland = Label(anchor='w',text='id:             '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labeltrajectgepland = Label(anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
+                self.labelperiodegepland = Label(anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=-self.ywaarde2,x=-680)
+                self.ywaarde2 += 20
 
-                self.labelidgepland = Label(framestoring,anchor='w',text='id:     '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 += 20
-                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:     '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 += 20
-                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=-self.ywaarde2,x=-680)
-                self.ywaarde2 += 20
-                
-                adviesDeel1 = self.advies2[0:100]
-                adviesDeel2 = self.advies2[100:200]
+                adviesDeel1 = self.advies2[0:140]
+                adviesDeel2 = self.advies2[140:280]
                 adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
-                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3 = self.advies2[280:420]
                 adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
-                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4 = self.advies2[420:560]
                 adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
-                adviesDeel5 = self.advies2[400:500]
-                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
-                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
 
-                
-                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:      '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+
+                self.labeladviesgepland = Label(fanchor='w',text='advies:        '+self.advies2[0:],font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=56
+                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:        '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 += 20
-                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:     '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 += 20
-                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:     '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             elif self.test2 == 1:
                 self.traject2 = xmldi['Storingen']['Gepland']['Storing']['Traject']
@@ -165,39 +163,37 @@ class Storingen:
                 self.oorzaak2 = xmldi['Storingen']['Gepland']['Storing']['Oorzaak']
                 self.vertraging2 = xmldi['Storingen']['Gepland']['Storing']['Vertraging']
 
+                self.ywaarde2 +=20
+                self.labelidgepland = Label(anchor='w',text='id:                '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labeltrajectgepland = Label(anchor='w',text='traject:         '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
+                self.labelperiodegepland = Label(anchor='w',text='periode:       '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=20
 
-                self.labelidgepland = Label(framestoring,anchor='w',text='id:   '+self.id2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 +=20
-                self.labeltrajectgepland = Label(framestoring,anchor='w',text='traject:   '+self.traject2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 +=20
-                self.labelperiodegepland = Label(framestoring,anchor='w',text='periode:    '+self.periode2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 +=20
-                
-                adviesDeel1 = self.advies2[0:100]
-                adviesDeel2 = self.advies2[100:200]
+                adviesDeel1 = self.advies2[0:140]
+                adviesDeel2 = self.advies2[140:280]
                 adviesDeel2MetEnter = adviesDeel2.replace(" ", "\n",1)
-                adviesDeel3 = self.advies2[200:300]
+                adviesDeel3 = self.advies2[280:420]
                 adviesDeel3MetEnter = adviesDeel3.replace(" ", "\n",1)
-                adviesDeel4 = self.advies2[300:400]
+                adviesDeel4 = self.advies2[420:560]
                 adviesDeel4MetEnter = adviesDeel4.replace(" ", "\n",1)
-                adviesDeel5 = self.advies2[400:500]
-                adviesDeel5MetEnter = adviesDeel5.replace(" ", "\n",1)
-                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter + adviesDeel5MetEnter
+                self.uiteindelijkeAdvies2 = adviesDeel1 + adviesDeel2MetEnter + adviesDeel3MetEnter + adviesDeel4MetEnter
 
-                self.labeladviesgepland = Label(framestoring,anchor='w',text='advies:    '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labeladviesgepland = Label(anchor='w',text='advies:         '+self.uiteindelijkeAdvies2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.ywaarde2 +=56
+                self.labeloorzaakgepland = Label(anchor='w',text='oorzaak:      '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.ywaarde2 +=20
-                self.labeloorzaakgepland = Label(framestoring,anchor='w',text='oorzaak:   '+self.oorzaak2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
-                self.ywaarde2 +=20
-                self.labelvertraginggepland = Label(framestoring,anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelvertraginggepland = Label(anchor='w',text='vertraging:    '+self.vertraging2,font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
 
             else:
                 self.ywaarde2 +=20
-                self.labelgeenstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=125).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
+                self.labelgeenstoring = Label(anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg="ghost white",bg="#0000ff", width=124).place(relx=0.5, rely=0.5,y=self.ywaarde2,x=-680)
                 self.test = 0
 
 window = Tk()
 
-url = 'http://webservices.ns.nl/ns-api-storingen?station=arnhem'
+url = 'http://webservices.ns.nl/ns-api-storingen?station=UT'
 user = 'victor_shao@hotmail.com'
 passw = 'dMHAg67WACsUdrQmqctr3giaTpTnsJmhPP2EcQWlVnMw3zmHXvSE-A'
 response = requests.get(url, auth=(user, passw))
@@ -211,7 +207,8 @@ allestoringen = 1
 
 storingen= Storingen(window)
 
-
+window["bg"] = "#fdcf19"
+window.geometry("1366x768")
 
 
 window.mainloop()
