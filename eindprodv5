@@ -255,6 +255,7 @@ class Storingen:
         self.labelstoringen = Label(anchor='w',text='Storingen',font=("ariel",25),fg="#003399",bg="#fdcf19", width=8).place(relx=0.5, rely=0.5,y=-380,x=-680)
         self.terugbutton = Button(text="terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(relx=0.5, rely=0.5,y=-370,x=455)
         self.labVensterRechts = Label(text="",bg="#01236A",height=691).place(relx=0.5, rely=0.5,y=-384,x=445)
+        self.labelleeg = Label(bg="#fdcf19",width=100, height=600).place(relx=0.5, rely=0.5,y=-280,x=455)
 
         for storing in range(0, allestoringen):
             self.id1 =''
