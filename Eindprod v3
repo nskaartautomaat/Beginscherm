@@ -61,6 +61,7 @@ class Beginscherm:
         BotFrame.destroy()
         Storingen(window)
 
+
 class Treinen:
 
     def __init__(self,master):
@@ -72,6 +73,7 @@ class Treinen:
         global frame2
         frame2= Frame(master,bg="#fdcf19")
         frame2.pack(side=TOP,fill=X)
+
 
         tijd = time.strftime("%H:%M")
 
@@ -134,8 +136,11 @@ class Treinen:
             self.buttonRefresh = Button(text='Refresh', fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.refresh).place(relx=0.5, rely=0.5,y=-190,x=455)
 
             self.labAnderStation = Label(text="ander station:", bg="#fdcf19", font=("Arial",10)).place(relx=0.5, rely=0.5,y=-100,x=455)
-            self.entyAnderStation = Entry(state=DISABLED).place(relx=0.5, rely=0.5,y=-100,x=540)
-            self.butAnderStation = Button(state=DISABLED,text="bekijk ander station",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
+            global entyAnderStation
+            entyAnderStation = Entry(master,state=DISABLED)
+            entyAnderStation.insert(0,"NIET ACTIEF")
+            entyAnderStation.place(relx=0.5, rely=0.5,y=-100,x=540)
+            self.butAnderStation = Button(state=DISABLED,text="NIET ACTIEF",fg="white",bg="#01236A",font=("arial",10)).place(relx=0.5, rely=0.5,y=-80,x=540)
 
             self.ButStoringen = Button(text="Storingen",fg="white",bg="#01236A",width=19,height=3,command=self.bStoring, font=("arial",15)).place(relx=0.5, rely=0.5,y=-45,x=455)
 
@@ -220,6 +225,7 @@ class Treinen:
         frame2.destroy()
         Storingen(window)
 
+
 class nietVoorOnzeOpdracht:
     def __init__(self,master):
 
@@ -248,16 +254,16 @@ class Storingen:
         xmldiStoring = xmltodict.parse(responseStoring.text)
 
         global framestoring
-        framestoring= Frame(master,bg="#fdcf19")
-        framestoring.pack(side=TOP,fill=X)
+        framestoring= Frame(master,bg="#fdcf19",width=1366,height=768)
+        framestoring.place(x=11,y=0)
 
 
 
         self.labelstoringen = Label(framestoring,anchor='w',text='Storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=1,column=0)
         self.labelongepland = Label(framestoring,anchor='w',text='Ongeplande storingen',font=("ariel",14),fg="#003399",bg="#fdcf19", width=200).grid(row=3,column=0)
         self.labelgepland = Label(framestoring,anchor='w',text='Geplande storingen',font=("ariel",14),fg='#003399',bg='#fdcf19', width=200).grid(row=30,column=0)
-        #self.terugbutton = Button(framestoring,text="Terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=1200, y=550)
-        self.hoofdmenuBbutton = Button(framestoring,text="Frame stopt hier↓",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=0, y=390)
+        self.terugbutton = Button(framestoring,text="Terug",fg="white",bg="#01236A",width=19,height=3,font=("arial",15),command=self.terug).place(x=1140, y=0)
+        #self.hoofdmenuBbutton = Button(framestoring,text="Frame stopt hier↓",fg="white",bg="#01236A",width=19,height=3,font=("arial",15)).place(x=0, y=100)
 
         for storing in range(0, allestoringen):
             self.id1 =''
@@ -420,6 +426,9 @@ class Storingen:
             else:
                 self.labelgeenstoring = Label(framestoring,anchor='w',text='Er zijn op dit moment geen geplande storingen',font=("ariel",11),fg='#003399',bg="#fdcf19",width=200).grid(row=61,column=0)
                 self.test = 0
+    def terug(self):
+        framestoring.destroy()
+        Treinen(window)
 
 try:
     window= Tk()
@@ -427,9 +436,9 @@ try:
     url = 'http://webservices.ns.nl/ns-api-avt?station='+standaardStation
     user = 'dennis-strik@hotmail.com'
     passw = 'Bmz5NUzoLz3GLtbRrbwIznZUdHs_5pqL5Yv-6dMrW5V_lknjcVqStg'
-    #response = requests.get(url, auth=(user, passw))
-    #xmldi = xmltodict.parse(response.text)
+
     urlStoring = 'http://webservices.ns.nl/ns-api-storingen?station=Utrecht+Centraal'
+
 
     hoeveelstetrein = 0
     aantaltreinen = 16
